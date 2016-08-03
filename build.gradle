@@ -1,0 +1,66 @@
+buildscript {
+    repositories {
+        maven {
+            url "${nexusUrl}/repository/maven-public"
+            credentials(PasswordCredentials) {
+                username = nexusUsername
+                password = nexusPassword
+            }
+        }
+    }
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:1.2.4'
+    }
+}
+
+apply plugin: 'org.akhikhl.gretty'
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'war'
+
+apply from: "$rootDir/config/dependencies.gradle"
+apply from: "$rootDir/config/codeQuality.gradle"
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+gretty {
+    servletContainer = 'tomcat7'
+    httpPort = 9090
+    contextPath = 'pep'
+    debugSuspend = false
+    fileLogEnabled = false
+    managedClassReload = true
+    serverConfigFile = "$project.projectDir/config/tomcat/server.xml"
+}
+
+dependencies {
+    compile libraries.slf4j_api,
+            libraries.spring_data_jpa,
+            libraries.spring_webmvc
+
+    runtime libraries.pep_webapp_configs,
+            libraries.pep_auth_jwt
+
+    runtime libraries.commons_fileupload,
+            libraries.h2,
+            libraries.hibernate_ehcache,
+            libraries.jackson_databind,
+            libraries.logback_classic,
+            libraries.spring_orm,
+            libraries.spring_webmvc
+
+    testCompile libraries.groovy,
+                libraries.junit,
+                libraries.spock,
+                libraries.spring_test
+
+    testRuntime libraries.aspectjweaver,
+                libraries.h2,
+                libraries.hibernate_hikaricp,
+                libraries.hibernate_ehcache,
+                libraries.hibernate_entitymanager,
+                libraries.servlet_api,
+                libraries.spring_context_support
+}
