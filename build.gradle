@@ -63,8 +63,7 @@ dependencies {
             libraries.spring_data_jpa,
             libraries.spring_webmvc
 
-    runtime libraries.pep_webapp_configs,
-            libraries.pep_auth_jwt
+    compile libraries.pep_core
 
     runtime libraries.commons_fileupload,
             libraries.h2,
@@ -74,10 +73,15 @@ dependencies {
             libraries.spring_orm,
             libraries.spring_webmvc
 
+    runtime libraries.pep_webapp_configs,
+            libraries.pep_auth_jwt
+
     testCompile libraries.groovy,
                 libraries.junit,
                 libraries.spock,
                 libraries.spring_test
+
+    testCompile libraries.pep_test
 
     testRuntime libraries.aspectjweaver,
                 libraries.h2,
