@@ -1,0 +1,28 @@
+# ignore node and bower dependencies
+node_modules/
+bower_components/
+
+# ignore temp files and folders
+.DS_Store
+.zip
+*.bak
+
+# ignore eclipse config files and folders
+.settings
+.project
+.classpath
+
+# ignore build related
+.gradle
+build
+bin
+
+# ignore IntellJ IDEA files and folders
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# ignore MANIFEST.MF
+MANIFEST.MF
