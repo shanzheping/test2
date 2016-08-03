@@ -8,7 +8,7 @@
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
     <bean id="regSJWebService" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
-        <property name="serviceInterface" value="com.proper.enterprise.platform.isj.webservices.service.RegSJService" />
+        <property name="serviceInterface" value="com.proper.enterprise.isj.webservices.service.RegSJService" />
         <property name="wsdlDocumentUrl" value="${isj.wsdlUrl}" />
         <property name="namespaceUri" value="http://tempuri.org/" />
         <property name="serviceName" value="RegSjWebService" />

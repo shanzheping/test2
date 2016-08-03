@@ -1,4 +1,4 @@
-package com.proper.enterprise.platform.isj.webservices.service;
+package com.proper.enterprise.isj.webservices.service;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;

@@ -1,6 +1,6 @@
-package com.proper.enterprise.platform.isj.webservices;
+package com.proper.enterprise.isj.webservices;
 
-import com.proper.enterprise.platform.isj.webservices.service.RegSJService;
+import com.proper.enterprise.isj.webservices.service.RegSJService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

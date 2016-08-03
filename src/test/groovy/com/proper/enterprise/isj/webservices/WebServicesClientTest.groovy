@@ -1,4 +1,4 @@
-package com.proper.enterprise.platform.isj.webservices
+package com.proper.enterprise.isj.webservices
 
 import com.proper.enterprise.platform.core.utils.StringUtil
 import com.proper.enterprise.platform.test.AbstractTest
