@@ -180,5 +180,7 @@ libraries.spring_data_jpa = 'org.springframework.data:spring-data-jpa:1.9.4.RELE
 
 //libraries.urlrewritefilter = 'org.tuckey:urlrewritefilter:4.0.3'
 
-libraries.pep_webapp_configs = "com.proper.enterprise.platform:pep-webapp-configs:${versions.pep}"
 libraries.pep_auth_jwt = "com.proper.enterprise.platform:pep-auth-jwt:${versions.pep}"
+libraries.pep_core = "com.proper.enterprise.platform:pep-core:${versions.pep}"
+libraries.pep_test = "com.proper.enterprise.platform:pep-test:${versions.pep}"
+libraries.pep_webapp_configs = "com.proper.enterprise.platform:pep-webapp-configs:${versions.pep}"
