@@ -26,7 +26,7 @@ module.exports = function(grunt) {
 
     shell: {
       stop: {
-        command: 'pm2 stop all -sf'
+        command: 'pm2 stop all -s'
       },
       start: {
         command: 'pm2 start proxy/proxy-webservices.js -s'
