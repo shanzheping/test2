@@ -18,7 +18,7 @@ public class ReqEncryptedAdapter extends XmlAdapter<String, Map<String, String>>
     public String marshal(Map<String, String> v) throws Exception {
         StringBuilder sb = new StringBuilder("<REQ>");
         for(Map.Entry<String, String> entry : v.entrySet()) {
-            sb.append(MessageFormat.format(MsgTemplates.REQ, entry.getKey(), entry.getValue()));
+            sb.append(MessageFormat.format(ConfCenter.get("isj.template.req"), entry.getKey(), entry.getValue()));
         }
         sb.append("</REQ>");
 

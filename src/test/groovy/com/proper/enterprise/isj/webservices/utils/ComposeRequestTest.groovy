@@ -20,6 +20,7 @@ class ComposeRequestTest extends AbstractTest {
         m.setReqEncrypted([HOST_ID: '123', IP: '456'])
         marshaller.marshal(m, new StreamResult(writer))
         println writer.toString().replace('&lt;', '<').replace('&gt;', '>');
+
     }
 
 }

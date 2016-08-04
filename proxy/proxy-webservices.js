@@ -2,6 +2,7 @@
 
 var http = require('http');
 var soap = require('soap');
+var parseString = require('xml2js').parseString;
 
 console.log('');
 console.log('PEP WebServices Proxy Server');
@@ -22,6 +23,9 @@ var myService = {
       NetTest: function(args) {
         console.log('xml:');
         console.log(args.xml);
+        parseString(args.xml, function(err, result) {
+          console.log(result.ROOT.FUN_CODE);
+        });
         return {
           NetTestResult: resXml
         };

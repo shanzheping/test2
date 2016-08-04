@@ -16,7 +16,7 @@ public class SignAdapter extends XmlAdapter<String, ReqModel> {
 
     @Override
     public String marshal(ReqModel v) throws Exception {
-        String sign = MessageFormat.format(MsgTemplates.SIGN_REQ,
+        String sign = MessageFormat.format(ConfCenter.get("isj.template.sign.req"),
                 v.getFunCode(),
                 v.getReqEncrypted(),
                 v.getUserId(),

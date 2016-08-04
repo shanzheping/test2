@@ -67,4 +67,11 @@ public class ReqModel {
         this.signType = signType;
     }
 
+    public ReqModel getSign() {
+        return sign;
+    }
+
+    public void setSign(ReqModel sign) {
+        this.sign = sign;
+    }
 }
