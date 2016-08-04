@@ -17,17 +17,17 @@
 
     <beans profile="dev">
         <context:property-placeholder ignore-unresolvable="true"
-                                      location="classpath:conf/isj/isj-proxy.properties" />
+                                      location="classpath:conf/isj/isj-ws-proxy.properties" />
     </beans>
 
     <beans profile="test">
         <context:property-placeholder ignore-unresolvable="true"
-                                      location="classpath:conf/isj/isj-proxy.properties" />
+                                      location="classpath:conf/isj/isj-ws-proxy.properties" />
     </beans>
 
     <beans profile="production">
         <context:property-placeholder ignore-unresolvable="true"
-                                      location="classpath:conf/isj/isj.properties" />
+                                      location="classpath:conf/isj/isj-ws-production.properties" />
     </beans>
 
 </beans>

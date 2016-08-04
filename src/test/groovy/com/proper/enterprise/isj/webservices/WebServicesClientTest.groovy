@@ -12,7 +12,7 @@ class WebServicesClientTest extends AbstractTest {
 
     @Test
     public void netTest() {
-        def res = client.netTest()
+        def res = client.netTest('11', '192.168.1.1')
         println "=" * (res.length() + 4)
         println "|| $res ||"
         println "=" * (res.length() + 4)

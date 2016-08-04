@@ -26,11 +26,11 @@ public class WebServicesClient {
     @Autowired
     Marshaller marshaller;
 
-    public String netTest() throws IOException {
+    public String netTest(String hosId, String ip) throws IOException {
         Map<String, String> map = new HashMap<>();
-        map.put("HOS_ID", "11");
-        map.put("IP", "192.168.1.103");
-        return regSJService.netTest(envelopReq("1001", map));
+        map.put("HOS_ID", hosId);
+        map.put("IP", ip);
+        return regSJService.netTest(envelopReq(ConfCenter.get("isj.funCode.netTest"), map));
     }
 
     private String envelopReq(String funCode, Map<String, String> map) throws IOException {
