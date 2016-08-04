@@ -11,11 +11,18 @@ class WebServicesClientTest extends AbstractTest {
     WebServicesClient client
 
     @Test
-    public void test() {
-        println "="*20
-        println client.test()
-        assert StringUtil.isNotNull(client.test())
-        println "="*20
+    public void netTest() {
+        def res = client.netTest()
+        println "=" * (res.length() + 4)
+        println "|| $res ||"
+        println "=" * (res.length() + 4)
+
+        def xml = new XmlParser().parseText(res)
+        assert StringUtil.isNotNull(xml.RETURN_CODE.text())
+        assert StringUtil.isNotNull(xml.RETURN_MSG.text())
+        assert xml.SIGN_TYPE.text() == 'MD5'
+        assert StringUtil.isNotNull(xml.SIGN.text())
+        assert StringUtil.isNotNull(xml.RES_ENCRYPTED.text())
     }
 
 }

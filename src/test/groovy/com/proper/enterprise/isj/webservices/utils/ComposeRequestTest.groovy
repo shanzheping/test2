@@ -19,7 +19,7 @@ class ComposeRequestTest extends AbstractTest {
     @Test
     public void marshallReq() {
         def funCode = '1111'
-        def userId = 'DEFAULT_USER'
+        def userId = ConfCenter.get('isj.userId')
         def req = [HOST_ID: '123', IP: '456']
 
         def writer = new StringWriter()
