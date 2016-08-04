@@ -82,7 +82,7 @@ libraries.groovy_sql = "org.codehaus.groovy:groovy-sql:${versions.groovy}"
 // libraries.groovy_swing = "org.codehaus.groovy:groovy-swing:${versions.groovy}"
 // libraries.groovy_test = "org.codehaus.groovy:groovy-test:${versions.groovy}"
 // libraries.groovy_testng = "org.codehaus.groovy:groovy-testng:${versions.groovy}"
-// libraries.groovy_xml = "org.codehaus.groovy:groovy-xml:${versions.groovy}"
+libraries.groovy_xml = "org.codehaus.groovy:groovy-xml:${versions.groovy}"
 
 //libraries.guava = 'com.google.guava:guava:18.0'
 
