@@ -2,6 +2,7 @@ package com.proper.enterprise.isj.webservices.model;
 
 import com.proper.enterprise.isj.webservices.utils.CDATAAdapter;
 import com.proper.enterprise.isj.webservices.utils.ReqEncryptedAdapter;
+import com.proper.enterprise.isj.webservices.utils.SignAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -27,8 +28,8 @@ public class ReqModel {
     private String signType = "MD5";
 
     @XmlElement(name = "SIGN")
-    @XmlJavaTypeAdapter(CDATAAdapter.class)
-    private String sign;
+    @XmlJavaTypeAdapter(SignAdapter.class)
+    private ReqModel sign = this;
 
     @XmlElement(name = "REQ_ENCRYPTED")
     @XmlJavaTypeAdapter(ReqEncryptedAdapter.class)
@@ -64,14 +65,6 @@ public class ReqModel {
 
     public void setSignType(String signType) {
         this.signType = signType;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public void setSign(String sign) {
-        this.sign = sign;
     }
 
 }

@@ -1,5 +1,4 @@
 package com.proper.enterprise.isj.webservices.utils
-
 import com.proper.enterprise.isj.webservices.model.ReqModel
 import com.proper.enterprise.platform.test.AbstractTest
 import org.junit.Test
@@ -8,8 +7,7 @@ import org.springframework.oxm.Marshaller
 
 import javax.xml.transform.stream.StreamResult
 
-
-class CDATAAdapterTest extends AbstractTest {
+class ComposeRequestTest extends AbstractTest {
 
     @Autowired
     Marshaller marshaller
@@ -21,7 +19,7 @@ class CDATAAdapterTest extends AbstractTest {
         m.setFunCode('1111')
         m.setReqEncrypted([HOST_ID: '123', IP: '456'])
         marshaller.marshal(m, new StreamResult(writer))
-        println writer.toString()
+        println writer.toString().replace('&lt;', '<').replace('&gt;', '>');
     }
 
 }
