@@ -77,6 +77,7 @@ dependencies {
             libraries.pep_auth_jwt
 
     testCompile libraries.groovy,
+                libraries.groovy_xml,
                 libraries.junit,
                 libraries.spock,
                 libraries.spring_test
