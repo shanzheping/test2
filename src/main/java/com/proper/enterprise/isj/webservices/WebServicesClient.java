@@ -1,5 +1,6 @@
 package com.proper.enterprise.isj.webservices;
 
+import com.proper.enterprise.isj.webservices.model.RegOrder;
 import com.proper.enterprise.isj.webservices.model.ReqModel;
 import com.proper.enterprise.isj.webservices.service.RegSJService;
 import com.proper.enterprise.platform.core.utils.ConfCenter;
@@ -79,7 +80,7 @@ public class WebServicesClient {
         return invokeWS("getRegInfo", map);
     }
 
-    public String orderReg() throws Exception {
+    public String orderReg(RegOrder regOrder) throws Exception {
         Map<String, String> map = new HashMap<>();
         // TODO
         return invokeWS("orderReg", map);
