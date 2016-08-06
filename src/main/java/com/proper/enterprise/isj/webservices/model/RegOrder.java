@@ -185,7 +185,8 @@ public class RegOrder {
     public Map<String, String> toParams() throws IllegalAccessException {
         Map<String, String> params = new HashMap<>();
         Field[] fields = this.getClass().getDeclaredFields();
-        String fieldName, fieldValue;
+        String fieldName;
+        String fieldValue;
         Object value;
         for (Field field : fields) {
             fieldName = camelToSnakeUpperCase(field.getName());
@@ -194,8 +195,8 @@ public class RegOrder {
                 continue;
             }
             if (field.getType().equals(Date.class)) {
-                fieldValue = fieldName.equals("orderTime") ?
-                        DateUtil.toTimestamp((Date) value) : DateUtil.toDateString((Date) value);
+                fieldValue = fieldName.equals("orderTime")
+                        ? DateUtil.toTimestamp((Date) value) : DateUtil.toDateString((Date) value);
             } else if (field.getType().equals(String.class)) {
                 fieldValue = (String) value;
             } else if (value instanceof IntEnum) {
