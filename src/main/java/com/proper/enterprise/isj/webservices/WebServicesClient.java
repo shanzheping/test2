@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.Marshaller;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
@@ -58,6 +59,7 @@ public class WebServicesClient {
     }
 
     private String envelopReq(String funCode, Map<String, String> map) throws IOException {
+        Assert.notNull(funCode, "FunCode should not null!");
         Writer writer = new StringWriter();
         ReqModel m = new ReqModel();
         m.setFunCode(funCode);
