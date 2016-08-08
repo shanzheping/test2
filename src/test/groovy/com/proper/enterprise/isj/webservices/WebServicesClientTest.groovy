@@ -11,14 +11,19 @@ class WebServicesClientTest extends AbstractTest {
     WebServicesClient client
 
     @Test
+    public void reqNotTransferred() {
+        def req = client.envelopReq('1001', [:])
+
+        assert req.indexOf('&lt;') < 0
+        assert req.indexOf('&gt;') < 0
+    }
+
+    @Test
     public void netTest() {
         def res = client.netTest('11', '192.168.1.1')
         println "=" * (res.length() + 4)
         println "|| $res ||"
         println "=" * (res.length() + 4)
-
-        assert res.indexOf("&lt;") < 0
-        assert res.indexOf("&gt;") < 0
 
         def xml = new XmlParser().parseText(res)
         assert StringUtil.isNotNull(xml.RETURN_CODE.text())
