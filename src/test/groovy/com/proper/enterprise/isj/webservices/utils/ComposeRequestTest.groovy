@@ -26,7 +26,7 @@ class ComposeRequestTest extends AbstractTest {
         def m = new ReqModel()
         m.setFunCode(funCode)
         m.setUserId(userId)
-        m.setReqEncrypted(req)
+        m.setReq(req)
         marshaller.marshal(m, new StreamResult(writer))
 
         def xml = new XmlParser().parseText(writer.toString())

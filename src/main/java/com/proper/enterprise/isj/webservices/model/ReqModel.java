@@ -33,7 +33,7 @@ public class ReqModel {
 
     @XmlElement(name = "REQ_ENCRYPTED")
     @XmlJavaTypeAdapter(ReqEncryptedAdapter.class)
-    private Map<String, String> reqEncrypted;
+    private Map<String, String> req;
 
     public String getFunCode() {
         return funCode;
@@ -43,12 +43,12 @@ public class ReqModel {
         this.funCode = funCode;
     }
 
-    public Map<String, String> getReqEncrypted() {
-        return reqEncrypted;
+    public Map<String, String> getReq() {
+        return req;
     }
 
-    public void setReqEncrypted(Map<String, String> reqEncrypted) {
-        this.reqEncrypted = reqEncrypted;
+    public void setReq(Map<String, String> req) {
+        this.req = req;
     }
 
     public String getUserId() {

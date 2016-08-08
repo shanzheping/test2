@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +31,19 @@ public class WebServicesClient {
     @Autowired
     Marshaller marshaller;
 
+    /**
+     * 在调用其它接口之前用于测试目标服务网络是否通畅，服务是否处于工作状态、数据库是否处于连接状态
+     *
+     * @param hosId 医院ID
+     * @param ip    请求IP
+     * @return 返回系统时间，格式：YYYY-MM-DD HH24:MI:SS
+     *
+     * <RES>
+     *   <SYSDATE>2014-10-01 20:22:10</SYSDATE>
+     * </RES>
+     *
+     * @throws Exception
+     */
     public String netTest(String hosId, String ip) throws Exception {
         Map<String, String> map = new HashMap<>();
         map.put("HOS_ID", hosId);
@@ -40,15 +54,15 @@ public class WebServicesClient {
     private String invokeWS(String methodName, Map<String, String> param) throws Exception {
         Method method = RegSJService.class.getDeclaredMethod(methodName, String.class);
         return (String) method.invoke(regSJService,
-                envelopReq(ConfCenter.get("isj.funCode." + method), param));
+                envelopReq(ConfCenter.get("isj.funCode." + methodName), param));
     }
 
     private String envelopReq(String funCode, Map<String, String> map) throws IOException {
-        StringWriter writer = new StringWriter();
+        Writer writer = new StringWriter();
         ReqModel m = new ReqModel();
         m.setFunCode(funCode);
         m.setUserId(ConfCenter.get("isj.userId"));
-        m.setReqEncrypted(map);
+        m.setReq(map);
         marshaller.marshal(m, new StreamResult(writer));
 
         String result = writer.toString();
@@ -57,6 +71,36 @@ public class WebServicesClient {
         return result;
     }
 
+    /**
+     * 查询医院列表及单个医院的详细信息。
+     * 需要获取医院基本信息时调用，平台可通过该接口获取医院的信息更新。
+     *
+     * @param hosId 医院ID
+     * @return
+     *
+     * <RES>
+     *   <HOS_ID>1001</HOS_ID>
+     *   <NAME>广东省人民医院</NAME>
+     *   <SHORT_NAME>省人医</SHORT_NAME>
+     *   <ADDRESS>地址</ADDRESS>
+     *   <TEL>020-11231112</TEL>
+     *   <WEBSITE>http://www.xxx.com</WEBSITE>
+     *   <WEIBO></WEIBO>
+     *   <LEVEL>3</LEVEL>
+     *   <AREA></AREA>
+     *   <DESC></DESC>
+     *   <SPECIAL></SPECIAL>
+     *   <LONGITUDE></LONGITUDE>
+     *   <LATITUDE></LATITUDE>
+     *   <MAX_REG_DAYS>0</MAX_REG_DAYS>
+     *   <START_REG_TIME></START_REG_TIME>
+     *   <END_REG_TIME></END_REG_TIME>
+     *   <STOP_BOOK_TIMEA></STOP_BOOK_TIMEA>
+     *   <STOP_BOOK_TIMEP></STOP_BOOK_TIMEP>
+     * </RES>
+     *
+     * @throws Exception
+     */
     public String getHosInfo(String hosId) throws Exception {
         Map<String, String> map = new HashMap<>();
         map.put("HOS_ID", hosId);
@@ -81,9 +125,7 @@ public class WebServicesClient {
     }
 
     public String orderReg(RegOrder regOrder) throws Exception {
-        Map<String, String> map = new HashMap<>();
-        // TODO
-        return invokeWS("orderReg", map);
+        return invokeWS("orderReg", regOrder.toParams());
     }
 
 }

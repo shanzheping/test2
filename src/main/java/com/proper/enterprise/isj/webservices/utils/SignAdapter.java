@@ -23,7 +23,7 @@ public class SignAdapter extends XmlAdapter<String, ReqModel> {
     public String marshal(ReqModel v) throws Exception {
         String sign = MessageFormat.format(ConfCenter.get("isj.template.sign.req"),
                 v.getFunCode(),
-                new ReqEncryptedAdapter().marshal(v.getReqEncrypted()),
+                new ReqEncryptedAdapter().marshal(v.getReq()),
                 v.getUserId(),
                 ConfCenter.get("isj.key"));
 
