@@ -290,11 +290,11 @@ public class RegOrder {
     }
 
     public Date getRegDate() {
-        return regDate;
+        return (Date) regDate.clone();
     }
 
     public void setRegDate(Date regDate) {
-        this.regDate = regDate;
+        this.regDate = (Date) regDate.clone();
     }
 
     public TimeFlag getTimeFlag() {
@@ -394,11 +394,11 @@ public class RegOrder {
     }
 
     public Date getBirthday() {
-        return birthday;
+        return (Date) birthday.clone();
     }
 
     public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+        this.birthday = (Date) birthday.clone();
     }
 
     public String getAddress() {
@@ -458,10 +458,10 @@ public class RegOrder {
     }
 
     public Date getOrderTime() {
-        return orderTime;
+        return (Date) orderTime.clone();
     }
 
     public void setOrderTime(Date orderTime) {
-        this.orderTime = orderTime;
+        this.orderTime = (Date) orderTime.clone();
     }
 }

@@ -46,10 +46,10 @@ class ComposeRequestTest extends AbstractTest {
                 ConfCenter.get("isj.key"),
                 Integer.parseInt(ConfCenter.get("isj.keySize")));
         reqEnc = aes.encrypt(reqEnc);
-        assert xml.REQ_ENCRYPTED.text() == reqEnc
+        assert xml.REQ_ENCRYPTED.text() == "<![CDATA[" + reqEnc + "]]>"
 
         def sign = "FUN_CODE=$funCode&REQ_ENCRYPTED=$reqEnc&USER_ID=$userId&KEY=${ConfCenter.get('isj.key')}"
-        assert xml.SIGN.text() == "<![CDATA[${MD5Util.md5Hex(sign)}]]>"
+        assert xml.SIGN.text() == "<![CDATA[${MD5Util.md5Hex(sign).toUpperCase()}]]>"
     }
 
 }
