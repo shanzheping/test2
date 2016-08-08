@@ -17,6 +17,9 @@ class WebServicesClientTest extends AbstractTest {
         println "|| $res ||"
         println "=" * (res.length() + 4)
 
+        assert res.indexOf("&lt;") < 0
+        assert res.indexOf("&gt;") < 0
+
         def xml = new XmlParser().parseText(res)
         assert StringUtil.isNotNull(xml.RETURN_CODE.text())
         assert StringUtil.isNotNull(xml.RETURN_MSG.text())
