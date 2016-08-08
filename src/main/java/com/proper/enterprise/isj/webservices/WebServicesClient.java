@@ -66,6 +66,8 @@ public class WebServicesClient {
         marshaller.marshal(m, new StreamResult(writer));
 
         String result = writer.toString();
+        // 东软接口不识别转义后的形式，故需要将被 marshaller 自动转义的字符替换回去
+        result = result.replace("&lt;", "<").replace("&gt;", ">");
         LOGGER.debug("Actual request after envelop is: {}", result);
 
         return result;

@@ -23,14 +23,15 @@ public class SignAdapter extends XmlAdapter<String, ReqModel> {
     public String marshal(ReqModel v) throws Exception {
         String sign = MessageFormat.format(ConfCenter.get("isj.template.sign.req"),
                 v.getFunCode(),
-                new ReqEncryptedAdapter().marshal(v.getReq()),
+                new ReqEncryptedAdapter().marshal(v.getReq(), false),
                 v.getUserId(),
                 ConfCenter.get("isj.key"));
 
         LOGGER.debug("Sign before MD5: {}",
                 StringUtil.abbreviate(sign,
                         Integer.parseInt(ConfCenter.get("isj.abbreviate.maxWidth"))));
-        return "<![CDATA[" + MD5Util.md5Hex(sign) + "]]>";
+        // 东软接口只识别大写 MD5
+        return "<![CDATA[" + MD5Util.md5Hex(sign).toUpperCase() + "]]>";
     }
 
 }

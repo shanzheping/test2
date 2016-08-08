@@ -16,6 +16,10 @@ public class ReqEncryptedAdapter extends XmlAdapter<String, Map<String, String>>
 
     @Override
     public String marshal(Map<String, String> v) throws Exception {
+        return marshal(v, true);
+    }
+
+    public String marshal(Map<String, String> v, boolean needCDATA) throws Exception {
         StringBuilder sb = new StringBuilder("<REQ>");
         for(Map.Entry<String, String> entry : v.entrySet()) {
             sb.append(MessageFormat.format(ConfCenter.get("isj.template.req"), entry.getKey(), entry.getValue()));
@@ -29,7 +33,11 @@ public class ReqEncryptedAdapter extends XmlAdapter<String, Map<String, String>>
                 ConfCenter.get("isj.key"),
                 Integer.parseInt(ConfCenter.get("isj.keySize")));
 
-        return aes.encrypt(sb.toString());
+        if (needCDATA) {
+            return "<![CDATA[" + aes.encrypt(sb.toString()) + "]]>";
+        } else {
+            return aes.encrypt(sb.toString());
+        }
     }
 
 }
