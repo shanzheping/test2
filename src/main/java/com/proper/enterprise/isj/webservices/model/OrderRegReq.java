@@ -1,6 +1,7 @@
 package com.proper.enterprise.isj.webservices.model;
 
 import com.proper.enterprise.isj.webservices.model.enmus.*;
+import com.proper.enterprise.platform.core.enums.IntEnum;
 import com.proper.enterprise.platform.core.utils.DateUtil;
 import com.proper.enterprise.platform.core.utils.StringUtil;
 

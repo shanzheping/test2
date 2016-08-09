@@ -2,30 +2,31 @@ package com.proper.enterprise.isj.webservices.model.enmus;
 
 import com.proper.enterprise.platform.core.enums.IntEnum;
 
-public enum RegType implements IntEnum {
+public enum RegStatus implements IntEnum {
 
     /**
-     * 为本人挂号
+     * 停诊
      */
-    SELF(1),
+    STOP(0),
 
     /**
-     * 为子女挂号
+     * 出诊
      */
-    CHILDREN(2),
+    NORMAL(1),
 
     /**
-     * 为他人挂号
+     * 暂未开放
      */
-    OTHERS(3);
+    CLOSED(2);
 
     private int code;
 
-    RegType(int code) {
+    RegStatus(int code) {
         this.code = code;
     }
 
+    @Override
     public int getCode() {
-        return code;
+        return 0;
     }
 }

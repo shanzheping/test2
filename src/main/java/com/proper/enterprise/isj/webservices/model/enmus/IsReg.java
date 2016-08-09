@@ -1,5 +1,7 @@
 package com.proper.enterprise.isj.webservices.model.enmus;
 
+import com.proper.enterprise.platform.core.enums.IntEnum;
+
 public enum IsReg implements IntEnum {
 
     /**
@@ -19,7 +21,7 @@ public enum IsReg implements IntEnum {
 
     private int code;
 
-    private IsReg(int code) {
+    IsReg(int code) {
         this.code = code;
     }
 

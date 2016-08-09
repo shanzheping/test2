@@ -1,5 +1,7 @@
 package com.proper.enterprise.isj.webservices.model.enmus;
 
+import com.proper.enterprise.platform.core.enums.IntEnum;
+
 public enum Sex implements IntEnum {
 
     /**
@@ -24,7 +26,7 @@ public enum Sex implements IntEnum {
 
     private int code;
 
-    private Sex(int code) {
+    Sex(int code) {
         this.code = code;
     }
 

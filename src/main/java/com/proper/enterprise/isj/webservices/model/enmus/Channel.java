@@ -1,5 +1,7 @@
 package com.proper.enterprise.isj.webservices.model.enmus;
 
+import com.proper.enterprise.platform.core.enums.IntEnum;
+
 public enum Channel implements IntEnum {
 
     /**
@@ -60,7 +62,7 @@ public enum Channel implements IntEnum {
 
     private int code;
 
-    private Channel(int code) {
+    Channel(int code) {
         this.code = code;
     }
 

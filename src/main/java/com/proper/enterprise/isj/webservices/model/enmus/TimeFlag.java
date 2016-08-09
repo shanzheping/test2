@@ -1,5 +1,7 @@
 package com.proper.enterprise.isj.webservices.model.enmus;
 
+import com.proper.enterprise.platform.core.enums.IntEnum;
+
 public enum TimeFlag implements IntEnum {
 
     /**
@@ -19,7 +21,7 @@ public enum TimeFlag implements IntEnum {
 
     private int code;
 
-    private TimeFlag(int code) {
+    TimeFlag(int code) {
         this.code = code;
     }
 
