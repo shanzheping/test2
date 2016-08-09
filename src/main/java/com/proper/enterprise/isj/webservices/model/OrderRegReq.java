@@ -9,7 +9,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegOrder {
+/**
+ * 预约挂号请求对象
+ */
+public class OrderRegReq {
 
     /**
      * 平台订单号，如果是事先锁定号源接口，则该字段和锁号ID一致
@@ -189,7 +192,7 @@ public class RegOrder {
         String fieldValue;
         Object value;
         for (Field field : fields) {
-            fieldName = camelToSnakeUpperCase(field.getName());
+            fieldName = field.getName();
             value = field.get(this);
             if (value == null) {
                 continue;
@@ -204,17 +207,14 @@ public class RegOrder {
             } else {
                 fieldValue = value + "";
             }
-            params.put(fieldName, fieldValue);
+            params.put(camelToSnakeUpperCase(fieldName), fieldValue);
         }
         return params;
     }
 
     private String camelToSnakeUpperCase(String camel) {
         String[] strs = StringUtil.splitByCharacterTypeCamelCase(camel);
-        for (String str : strs) {
-            str = str.toUpperCase();
-        }
-        return StringUtil.join(strs, "_");
+        return StringUtil.join(strs, "_").toUpperCase();
     }
 
     public String getOrderId() {
