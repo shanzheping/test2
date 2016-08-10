@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "ROOT")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ResModel {
+public class ResModel<T> {
 
     @XmlElement(name = "RETURN_CODE")
     private int returnCode;
@@ -25,6 +25,8 @@ public class ResModel {
 
     @XmlElement(name = "RES_ENCRYPTED")
     private String resEncrypted;
+
+    private T res;
 
     public ReturnCode getReturnCode() {
         return ReturnCode.codeOf(returnCode);
@@ -65,4 +67,13 @@ public class ResModel {
     public void setResEncrypted(String resEncrypted) {
         this.resEncrypted = resEncrypted;
     }
+
+    public T getRes() {
+        return res;
+    }
+
+    public void setRes(T res) {
+        this.res = res;
+    }
+
 }

@@ -28,22 +28,20 @@ class WebServicesClientTest extends AbstractTest {
 
     @Test
     public void netTest() {
-        def res = client.netTest('11', '192.168.1.1')
-        println "=" * (res.length() + 4)
-        println "|| $res ||"
-        println "=" * (res.length() + 4)
-
-        def xml = new XmlParser().parseText(res)
-        assert StringUtil.isNotNull(xml.RETURN_CODE.text())
-        assert StringUtil.isNotNull(xml.RETURN_MSG.text())
-        assert xml.SIGN_TYPE.text() == 'MD5'
-        assert StringUtil.isNotNull(xml.SIGN.text())
-        assert StringUtil.isNotNull(xml.RES_ENCRYPTED.text())
+        def resModel = client.netTest('11', '192.168.1.1')
+        assert resModel.getReturnCode() != null
+        assert StringUtil.isNotNull(resModel.returnMsg)
+        assert resModel.getSignType() == 'MD5'
+        assert StringUtil.isNotNull(resModel.getSign())
+        assert StringUtil.isNotNull(resModel.getResEncrypted())
+        assert resModel.getRes() != null
+        assert resModel.getRes().sysDate != null
     }
 
     @Test
     public void getRegInfo() {
-        def regInfo = client.getRegInfo('11', '-1', '123', new Date(), new Date())
+        def resModel = client.getRegInfo('11', '-1', '123', new Date(), new Date())
+        def regInfo = resModel.getRes()
         assert regInfo != null
         assert regInfo.regDoctorList != null
         assert regInfo.regDoctorList[0].regList != null

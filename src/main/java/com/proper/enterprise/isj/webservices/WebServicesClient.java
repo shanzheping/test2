@@ -1,8 +1,9 @@
 package com.proper.enterprise.isj.webservices;
 
 import com.proper.enterprise.isj.webservices.model.req.OrderRegReq;
-import com.proper.enterprise.isj.webservices.model.res.RegInfo;
 import com.proper.enterprise.isj.webservices.model.req.ReqModel;
+import com.proper.enterprise.isj.webservices.model.res.NetTestResult;
+import com.proper.enterprise.isj.webservices.model.res.RegInfo;
 import com.proper.enterprise.isj.webservices.model.res.ResModel;
 import com.proper.enterprise.isj.webservices.service.RegSJService;
 import com.proper.enterprise.platform.core.utils.CipherUtil;
@@ -16,6 +17,7 @@ import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -34,17 +36,11 @@ public class WebServicesClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebServicesClient.class);
 
-    @Autowired
-    CipherUtil aes;
-
-    @Autowired
-    RegSJService regSJService;
-
-    @Autowired
-    Marshaller marshaller;
-
-    @Autowired
-    Unmarshaller unmarshaller;
+    @Autowired WebApplicationContext wac;
+    @Autowired CipherUtil aes;
+    @Autowired RegSJService regSJService;
+    @Autowired Marshaller marshaller;
+    @Autowired Unmarshaller unmarshaller;
 
     /**
      * 在调用其它接口之前用于测试目标服务网络是否通畅，服务是否处于工作状态、数据库是否处于连接状态
@@ -59,11 +55,12 @@ public class WebServicesClient {
      *
      * @throws Exception
      */
-    public String netTest(String hosId, String ip) throws Exception {
+    public ResModel<NetTestResult> netTest(String hosId, String ip) throws Exception {
         Map<String, String> map = new HashMap<>();
         map.put("HOS_ID", hosId);
         map.put("IP", ip);
-        return invokeWS("netTest", map);
+        String res = invokeWS("netTest", map);
+        return parseEnvelop(res, NetTestResult.class);
     }
 
     private String invokeWS(String methodName, Map<String, String> param) throws Exception {
@@ -72,7 +69,7 @@ public class WebServicesClient {
                 envelopReq(ConfCenter.get("isj.funCode." + methodName), param));
     }
 
-    private String envelopReq(String funCode, Map<String, String> map) throws IOException {
+    protected String envelopReq(String funCode, Map<String, String> map) throws IOException {
         Assert.notNull(funCode, "FunCode should not null!");
         Writer writer = new StringWriter();
         ReqModel m = new ReqModel();
@@ -87,6 +84,33 @@ public class WebServicesClient {
         LOGGER.debug("Actual request after envelop is: {}", result);
 
         return result;
+    }
+
+    private <T> ResModel<T> parseEnvelop(String responseStr, Class<T> clz) throws Exception {
+        ResModel<T> resModel = (ResModel<T>) unmarshaller.unmarshal(new StreamSource(new StringReader(responseStr)));
+        if (signValid(resModel)) {
+            String res = aes.decrypt(resModel.getResEncrypted());
+            Unmarshaller u = wac.getBean("unmarshall" + clz.getSimpleName(), Unmarshaller.class);
+            T resObj = (T) u.unmarshal(new StreamSource(new StringReader(res)));
+            resModel.setRes(resObj);
+            return resModel;
+        } else {
+            LOGGER.error("Sign is INVALID!! Could NOT parse response!!");
+            return null;
+        }
+    }
+
+    private boolean signValid(ResModel resModel) {
+        Assert.notNull(resModel.getSign());
+
+        String sign = MessageFormat.format(
+                ConfCenter.get("isj.template.sign.res"),
+                resModel.getResEncrypted(),
+                resModel.getReturnCode().getCode(),
+                resModel.getReturnMsg(),
+                ConfCenter.get("isj.key"));
+
+        return resModel.getSign().equalsIgnoreCase(MD5Util.md5Hex(sign));
     }
 
     /**
@@ -170,7 +194,7 @@ public class WebServicesClient {
      * @return 排班信息对象
      * @throws Exception
      */
-    public RegInfo getRegInfo(String hosId, String deptId, String doctorId, Date startDate, Date endDate) throws Exception {
+    public ResModel<RegInfo> getRegInfo(String hosId, String deptId, String doctorId, Date startDate, Date endDate) throws Exception {
         Map<String, String> map = new HashMap<>();
         map.put("HOS_ID", hosId);
         map.put("DEPT_ID", deptId);
@@ -180,30 +204,6 @@ public class WebServicesClient {
 
         String result = invokeWS("getRegInfo", map);
         return parseEnvelop(result, RegInfo.class);
-    }
-
-    private <T> T parseEnvelop(String responseStr, Class<T> clz) throws Exception {
-        ResModel resModel = (ResModel) unmarshaller.unmarshal(new StreamSource(new StringReader(responseStr)));
-        if (signValid(resModel)) {
-            String res = aes.decrypt(resModel.getResEncrypted());
-            return (T) unmarshaller.unmarshal(new StreamSource(new StringReader(res)));
-        } else {
-            LOGGER.error("Sign is INVALID!! Could NOT parse response!!");
-            return null;
-        }
-    }
-
-    private boolean signValid(ResModel resModel) {
-        Assert.notNull(resModel.getSign());
-
-        String sign = MessageFormat.format(
-                ConfCenter.get("isj.template.sign.res"),
-                resModel.getResEncrypted(),
-                resModel.getReturnCode().getCode(),
-                resModel.getReturnMsg(),
-                ConfCenter.get("isj.key"));
-
-        return resModel.getSign().equalsIgnoreCase(MD5Util.md5Hex(sign));
     }
 
     /**
