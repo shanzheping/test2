@@ -2,6 +2,7 @@ package com.proper.enterprise.isj.webservices;
 
 import com.proper.enterprise.isj.webservices.model.req.OrderRegReq;
 import com.proper.enterprise.isj.webservices.model.req.ReqModel;
+import com.proper.enterprise.isj.webservices.model.res.HosInfo;
 import com.proper.enterprise.isj.webservices.model.res.NetTestResult;
 import com.proper.enterprise.isj.webservices.model.res.RegInfo;
 import com.proper.enterprise.isj.webservices.model.res.ResModel;
@@ -47,7 +48,7 @@ public class WebServicesClient {
      *
      * @param hosId 医院ID
      * @param ip    请求IP
-     * @return NetTestResult in ResModel
+     * @return 响应模型及网络测试结果对象
      * @throws Exception
      */
     public ResModel<NetTestResult> netTest(String hosId, String ip) throws Exception {
@@ -113,34 +114,14 @@ public class WebServicesClient {
      * 需要获取医院基本信息时调用，平台可通过该接口获取医院的信息更新。
      *
      * @param hosId 医院ID
-     * @return
-     *
-     * <RES>
-     *   <HOS_ID>1001</HOS_ID>                  医院ID
-     *   <NAME>广东省人民医院</NAME>               医院名称
-     *   <SHORT_NAME>省人医</SHORT_NAME>         医院名称简称
-     *   <ADDRESS>地址</ADDRESS>                 医院地址
-     *   <TEL>020-11231112</TEL>                联系电话
-     *   <WEBSITE>http://www.xxx.com</WEBSITE>  医院网站
-     *   <WEIBO></WEIBO>                        医院微博地址
-     *   <LEVEL>3</LEVEL>                       医院等级，详见 “医院等级”
-     *   <DESC></DESC>                          医院介绍
-     *   <SPECIAL></SPECIAL>                    医院专长
-     *   <LONGITUDE></LONGITUDE>                医院所在位置经度，例：113.452472
-     *   <LATITUDE></LATITUDE>                  医院所在位置纬度，例：23.111814
-     *   <MAX_REG_DAYS>0</MAX_REG_DAYS>         最大预约天数
-     *   <START_REG_TIME></START_REG_TIME>      开始预约时间，格式：HH:MI
-     *   <END_REG_TIME></END_REG_TIME>          停止预约时间，格式：HH:MI
-     *   <STOP_BOOK_TIMEA></STOP_BOOK_TIMEA>    上午停止取号时间，格式：HH:MI
-     *   <STOP_BOOK_TIMEP></STOP_BOOK_TIMEP>    下午停止取号时间，格式：HH:MI
-     * </RES>
-     *
+     * @return 响应模型及医院信息
      * @throws Exception
      */
-    public String getHosInfo(String hosId) throws Exception {
+    public ResModel<HosInfo> getHosInfo(String hosId) throws Exception {
         Map<String, String> map = new HashMap<>();
         map.put("HOS_ID", hosId);
-        return invokeWS("getHosInfo", map);
+        String res = invokeWS("getHosInfo", map);
+        return parseEnvelop(res, HosInfo.class);
     }
 
     /**
@@ -186,7 +167,7 @@ public class WebServicesClient {
      * @param doctorId  医生ID，HIS系统中医生唯一ID，为-1时查询科室ID下所有医生排班
      * @param startDate 排班开始日期，格式：YYYY-MM-DD
      * @param endDate   排班结束日期，格式：YYYY-MM-DD
-     * @return 排班信息对象
+     * @return 响应模型及排班信息对象
      * @throws Exception
      */
     public ResModel<RegInfo> getRegInfo(String hosId, String deptId, String doctorId, Date startDate, Date endDate) throws Exception {

@@ -26,6 +26,9 @@
     <oxm:jaxb2-marshaller id="unmarshallRegInfo">
         <oxm:class-to-be-bound name="com.proper.enterprise.isj.webservices.model.res.RegInfo" />
     </oxm:jaxb2-marshaller>
+    <oxm:jaxb2-marshaller id="unmarshallHosInfo">
+        <oxm:class-to-be-bound name="com.proper.enterprise.isj.webservices.model.res.HosInfo" />
+    </oxm:jaxb2-marshaller>
 
     <bean id="aes" class="com.proper.enterprise.platform.core.utils.CipherUtil" factory-method="getInstance">
         <constructor-arg name="algorithm" value="${isj.algorithm}" />
