@@ -1,4 +1,4 @@
-package com.proper.enterprise.isj.webservices.model.reginfo;
+package com.proper.enterprise.isj.webservices.model.res.reginfo;
 
 import com.proper.enterprise.isj.webservices.model.enmus.RegLevel;
 import com.proper.enterprise.isj.webservices.model.enmus.RegStatus;

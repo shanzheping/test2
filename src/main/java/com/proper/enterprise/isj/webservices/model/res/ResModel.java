@@ -1,4 +1,4 @@
-package com.proper.enterprise.isj.webservices.model;
+package com.proper.enterprise.isj.webservices.model.res;
 
 import com.proper.enterprise.isj.webservices.model.enmus.ReturnCode;
 

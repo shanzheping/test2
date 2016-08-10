@@ -1,4 +1,4 @@
-package com.proper.enterprise.isj.webservices.model.reginfo;
+package com.proper.enterprise.isj.webservices.model.res.reginfo;
 
 import com.proper.enterprise.platform.core.utils.DateUtil;
 

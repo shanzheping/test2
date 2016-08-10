@@ -1,6 +1,6 @@
 package com.proper.enterprise.isj.webservices.utils;
 
-import com.proper.enterprise.isj.webservices.model.ReqModel;
+import com.proper.enterprise.isj.webservices.model.req.ReqModel;
 import com.proper.enterprise.platform.core.utils.ConfCenter;
 import com.proper.enterprise.platform.core.utils.MD5Util;
 import com.proper.enterprise.platform.core.utils.StringUtil;

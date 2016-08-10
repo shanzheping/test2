@@ -1,6 +1,6 @@
-package com.proper.enterprise.isj.webservices.model;
+package com.proper.enterprise.isj.webservices.model.res;
 
-import com.proper.enterprise.isj.webservices.model.reginfo.RegDoctor;
+import com.proper.enterprise.isj.webservices.model.res.reginfo.RegDoctor;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -1,4 +1,4 @@
-package com.proper.enterprise.isj.webservices.model;
+package com.proper.enterprise.isj.webservices.model.req;
 
 import com.proper.enterprise.isj.webservices.model.enmus.*;
 import com.proper.enterprise.platform.core.enums.IntEnum;

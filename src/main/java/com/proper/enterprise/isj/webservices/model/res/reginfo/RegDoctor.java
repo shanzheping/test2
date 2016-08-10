@@ -1,4 +1,4 @@
-package com.proper.enterprise.isj.webservices.model.reginfo;
+package com.proper.enterprise.isj.webservices.model.res.reginfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

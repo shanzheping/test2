@@ -1,9 +1,9 @@
 package com.proper.enterprise.isj.webservices;
 
-import com.proper.enterprise.isj.webservices.model.OrderRegReq;
-import com.proper.enterprise.isj.webservices.model.RegInfo;
-import com.proper.enterprise.isj.webservices.model.ReqModel;
-import com.proper.enterprise.isj.webservices.model.ResModel;
+import com.proper.enterprise.isj.webservices.model.req.OrderRegReq;
+import com.proper.enterprise.isj.webservices.model.res.RegInfo;
+import com.proper.enterprise.isj.webservices.model.req.ReqModel;
+import com.proper.enterprise.isj.webservices.model.res.ResModel;
 import com.proper.enterprise.isj.webservices.service.RegSJService;
 import com.proper.enterprise.platform.core.utils.CipherUtil;
 import com.proper.enterprise.platform.core.utils.ConfCenter;

@@ -1,4 +1,4 @@
-package com.proper.enterprise.isj.webservices.model;
+package com.proper.enterprise.isj.webservices.model.req;
 
 import com.proper.enterprise.isj.webservices.utils.CDATAAdapter;
 import com.proper.enterprise.isj.webservices.utils.ReqEncryptedAdapter;

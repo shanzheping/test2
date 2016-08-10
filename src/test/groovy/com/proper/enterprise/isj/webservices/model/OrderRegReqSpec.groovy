@@ -2,6 +2,7 @@ package com.proper.enterprise.isj.webservices.model
 
 import com.proper.enterprise.isj.webservices.model.enmus.IDCardType
 import com.proper.enterprise.isj.webservices.model.enmus.Sex
+import com.proper.enterprise.isj.webservices.model.req.OrderRegReq
 import spock.lang.Specification
 
 class OrderRegReqSpec extends Specification {
