@@ -7,12 +7,22 @@
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <context:property-placeholder location="classpath:conf/isj/isj.properties" ignore-unresolvable="true" />
+
     <bean id="regSJWebService" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
         <property name="serviceInterface" value="com.proper.enterprise.isj.webservices.service.RegSJService" />
         <property name="wsdlDocumentUrl" value="${isj.wsdlUrl}" />
         <property name="namespaceUri" value="http://tempuri.org/" />
         <property name="serviceName" value="RegSjWebService" />
         <property name="portName" value="RegSjWebServiceSoap" />
+    </bean>
+
+    <bean id="aes" class="com.proper.enterprise.platform.core.utils.CipherUtil" factory-method="getInstance">
+        <constructor-arg name="algorithm" value="${isj.algorithm}" />
+        <constructor-arg name="mode" value="${isj.mode}" />
+        <constructor-arg name="padding" value="${isj.padding}" />
+        <constructor-arg name="key" value="${isj.key}" />
+        <constructor-arg name="keySize" value="${isj.keySize}" />
     </bean>
 
     <beans profile="dev">

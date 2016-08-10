@@ -1,9 +1,11 @@
 package com.proper.enterprise.isj.webservices;
 
 import com.proper.enterprise.isj.webservices.model.OrderRegReq;
+import com.proper.enterprise.isj.webservices.model.RegInfo;
 import com.proper.enterprise.isj.webservices.model.ReqModel;
 import com.proper.enterprise.isj.webservices.model.ResModel;
 import com.proper.enterprise.isj.webservices.service.RegSJService;
+import com.proper.enterprise.platform.core.utils.CipherUtil;
 import com.proper.enterprise.platform.core.utils.ConfCenter;
 import com.proper.enterprise.platform.core.utils.DateUtil;
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +32,9 @@ import java.util.Map;
 public class WebServicesClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebServicesClient.class);
+
+    @Autowired
+    private CipherUtil AES;
 
     @Autowired
     RegSJService regSJService;
@@ -203,16 +209,43 @@ public class WebServicesClient {
      *
      * @throws Exception
      */
-    public String getRegInfo(String hosId, String deptId, String doctorId, Date startDate, Date endDate) throws Exception {
+    public RegInfo getRegInfo(String hosId, String deptId, String doctorId, Date startDate, Date endDate) throws Exception {
         Map<String, String> map = new HashMap<>();
         map.put("HOS_ID", hosId);
         map.put("DEPT_ID", deptId);
         map.put("DOCTOR_ID", doctorId);
         map.put("START_DATE", DateUtil.toDateString(startDate));
         map.put("END_DATE", DateUtil.toDateString(endDate));
+
         String result = invokeWS("getRegInfo", map);
-        ResModel resModel = (ResModel) unmarshaller.unmarshal(new StreamSource(new StringReader(result)));
-        return result;
+        return parseEnvelop(result, RegInfo.class);
+    }
+
+    private <T> T parseEnvelop(String responseStr, Class<T> clz) throws Exception {
+        ResModel resModel = (ResModel) unmarshaller.unmarshal(new StreamSource(new StringReader(responseStr)));
+        if (signValid(resModel)) {
+            String res = AES.decrypt(resModel.getResEncrypted());
+            T obj = (T) unmarshaller.unmarshal(new StreamSource(new StringReader(res)));
+            return obj;
+        } else {
+            // TODO
+            return null;
+        }
+    }
+
+    private boolean signValid(ResModel resModel) {
+        Assert.notNull(resModel.getSign());
+
+        String sign = MessageFormat.format(
+                ConfCenter.get("isj.template.sign.res"),
+                resModel.getResEncrypted(),
+                resModel.getReturnCode().getCode(),
+                resModel.getReturnMsg(),
+                ConfCenter.get("isj.key"));
+
+        // TODO
+//        return resModel.getSign().equals(sign);
+        return true;
     }
 
     /**

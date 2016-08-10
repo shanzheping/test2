@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ResModel {
 
     @XmlElement(name = "RETURN_CODE")
-    private ReturnCode returnCode;
+    private int returnCode;
 
     @XmlElement(name = "RETURN_MSG")
     private String returnMsg;
@@ -27,10 +27,10 @@ public class ResModel {
     private String resEncrypted;
 
     public ReturnCode getReturnCode() {
-        return returnCode;
+        return ReturnCode.codeOf(returnCode);
     }
 
-    public void setReturnCode(ReturnCode returnCode) {
+    public void setReturnCode(int returnCode) {
         this.returnCode = returnCode;
     }
 

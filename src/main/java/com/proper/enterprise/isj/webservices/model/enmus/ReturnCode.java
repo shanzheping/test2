@@ -29,4 +29,13 @@ public enum ReturnCode implements IntEnum {
     public int getCode() {
         return code;
     }
+
+    public static ReturnCode codeOf(int code) {
+        for (ReturnCode returnCode : values()) {
+            if (returnCode.getCode() == code) {
+                return returnCode;
+            }
+        }
+        return null;
+    }
 }

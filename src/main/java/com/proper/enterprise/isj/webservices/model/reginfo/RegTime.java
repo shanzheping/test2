@@ -5,25 +5,41 @@ import com.proper.enterprise.isj.webservices.model.enmus.RegStatus;
 import com.proper.enterprise.isj.webservices.model.enmus.TimeFlag;
 import com.proper.enterprise.platform.core.enums.WhetherType;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "REG_TIME_LIST")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class RegTime {
 
+    @XmlElement(name = "REG_ID")
     private String regId;
 
-    private TimeFlag timeFlag;
+    @XmlElement(name = "TIME_FLAG")
+    private int timeFlag;
 
-    private RegStatus regStatus;
+    @XmlElement(name = "REG_STATUS")
+    private int regStatus;
 
+    @XmlElement(name = "TOTAL")
     private int total = 99;
 
+    @XmlElement(name = "OVER_COUNT")
     private int overCount = 99;
 
-    private RegLevel regLevel;
+    @XmlElement(name = "REG_LEVEL")
+    private int regLevel;
 
+    @XmlElement(name = "REG_FEE")
     private long regFee;
 
+    @XmlElement(name = "TREAT_FEE")
     private long treatFee;
 
-    private WhetherType isTime;
+    @XmlElement(name = "ISTIME")
+    private int isTime;
 
     public String getRegId() {
         return regId;
@@ -34,18 +50,18 @@ public class RegTime {
     }
 
     public TimeFlag getTimeFlag() {
-        return timeFlag;
+        return TimeFlag.valueOf(timeFlag + "");
     }
 
-    public void setTimeFlag(TimeFlag timeFlag) {
+    public void setTimeFlag(int timeFlag) {
         this.timeFlag = timeFlag;
     }
 
     public RegStatus getRegStatus() {
-        return regStatus;
+        return RegStatus.valueOf(regStatus + "");
     }
 
-    public void setRegStatus(RegStatus regStatus) {
+    public void setRegStatus(int regStatus) {
         this.regStatus = regStatus;
     }
 
@@ -66,10 +82,10 @@ public class RegTime {
     }
 
     public RegLevel getRegLevel() {
-        return regLevel;
+        return RegLevel.valueOf(regLevel + "");
     }
 
-    public void setRegLevel(RegLevel regLevel) {
+    public void setRegLevel(int regLevel) {
         this.regLevel = regLevel;
     }
 
@@ -90,10 +106,10 @@ public class RegTime {
     }
 
     public WhetherType getIsTime() {
-        return isTime;
+        return WhetherType.valueOf(isTime + "");
     }
 
-    public void setIsTime(WhetherType isTime) {
+    public void setIsTime(int isTime) {
         this.isTime = isTime;
     }
 }

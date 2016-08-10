@@ -1,15 +1,25 @@
 package com.proper.enterprise.isj.webservices.model.reginfo;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
+@XmlRootElement(name = "REG_DOCTOR_LIST")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class RegDoctor {
 
+    @XmlElement(name = "DOCTOR_ID")
     private String doctorId;
 
+    @XmlElement(name = "NAME")
     private String name;
 
+    @XmlElement(name = "JOB_TITLE")
     private String jobTitle;
 
+    @XmlElement(name = "REG_LIST")
     private List<Reg> regList;
 
     public String getDoctorId() {

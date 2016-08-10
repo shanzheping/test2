@@ -1,22 +1,33 @@
 package com.proper.enterprise.isj.webservices.model.reginfo;
 
+import com.proper.enterprise.platform.core.utils.DateUtil;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 import java.util.List;
 
+@XmlRootElement(name = "REG_LIST")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Reg {
 
-    private Date regDate;
+    @XmlElement(name = "REG_DATE")
+    private String regDate;
 
+    @XmlElement(name = "REG_WEEKDAY")
     private String regWeekday;
 
+    @XmlElement(name = "REG_TIME_LIST")
     private List<RegTime> regTimeList;
 
     public Date getRegDate() {
-        return (Date) regDate.clone();
+        return DateUtil.toDate(regDate);
     }
 
-    public void setRegDate(Date regDate) {
-        this.regDate = (Date) regDate.clone();
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
     }
 
     public String getRegWeekday() {
