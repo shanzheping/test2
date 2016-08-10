@@ -2,10 +2,7 @@ package com.proper.enterprise.isj.webservices;
 
 import com.proper.enterprise.isj.webservices.model.req.OrderRegReq;
 import com.proper.enterprise.isj.webservices.model.req.ReqModel;
-import com.proper.enterprise.isj.webservices.model.res.HosInfo;
-import com.proper.enterprise.isj.webservices.model.res.NetTestResult;
-import com.proper.enterprise.isj.webservices.model.res.RegInfo;
-import com.proper.enterprise.isj.webservices.model.res.ResModel;
+import com.proper.enterprise.isj.webservices.model.res.*;
 import com.proper.enterprise.isj.webservices.service.RegSJService;
 import com.proper.enterprise.platform.core.utils.CipherUtil;
 import com.proper.enterprise.platform.core.utils.ConfCenter;
@@ -130,32 +127,15 @@ public class WebServicesClient {
      *
      * @param hosId     医院ID
      * @param deptId    科室ID，HIS系统中科室唯一ID，为-1时查询所有科室信息，为0时查询所有一级科室信息，为其他的时查本科室以及所有子科室信息
-     * @return
-     *
-     * <RES>
-     *   <HOS_ID></HOS_ID>              医院ID
-     *   <DEPT_LIST>                    科室信息集合
-     *     <DEPT_ID>100101</DEPT_ID>    科室ID,HIS系统中科室唯一ID
-     *     <DEPT_NAME>骨科</DEPT_NAME>   科室名称
-     *     <PARENT_ID>-1</PARENT_ID>    上级科室ID，顶级时为-1
-     *     <DESC></DESC>                介绍
-     *     <LEVEL>1</LEVEL>             科室等级，详见 “科室等级”
-     *     <ADDRESS>门诊一楼</ADDRESS>    科室所在位置
-     *     <EXPERTISE></EXPERTISE>      科室主治
-     *     <STATUS>1</STATUS>           状态，详见 “状态”
-     *   </DEPT_LIST>
-     *   <DEPT_LIST>
-     *     …
-     *   </DEPT_LIST>
-     * </RES>
-     *
+     * @return 响应模型及科室信息
      * @throws Exception
      */
-    public String getDeptInfo(String hosId, String deptId) throws Exception {
+    public ResModel<DeptInfo> getDeptInfo(String hosId, String deptId) throws Exception {
         Map<String, String> map = new HashMap<>();
         map.put("HOS_ID", hosId);
         map.put("DEPT_ID", deptId);
-        return invokeWS("getDeptInfo", map);
+        String res = invokeWS("getDeptInfo", map);
+        return parseEnvelop(res, DeptInfo.class);
     }
 
     /**

@@ -47,6 +47,12 @@ var myService = {
         return {
           GetHosInfoResult: resXml('AD714348376B93E74E235211A033D538', 'Cr/91EhfFgoaz6Mh45iq3x21aBvlwhgF8AKSxgmKyJPTgE9cP+8ar3SEZsnl4GL5rUiKel9/d7T+Fh/NB9rjkANQ75TiKosQ2mbm0m5ZaQAsSOZwNaWgHSEtRshVbbSeJp4PyRU91CvG+Tx7A+xtomDaUlM6lmltsPGCtNlFRbQ2eJ8YquXHjAynQHZ4JxyKp1IZp/WLGDE0lxZ3bjHJLZGOhPPk/NIuV64M4x4xJQ1Lte4NR4wVXrilYFEoJrn7EMly495CKchIzvDCqV7tNnOtgGxoNiFgTK8S/hrQ4KvclGihHjF533sBB53rUvuw9e33I2Q0sn7EuBge9yDsuuod+2c4x/MAB7YpWZ87y+YDBWm2ne0MGF1cpgxAL38lRdjyVKbxCcysjH+QEK6db4ifrEuyVhK0Tg8JuDcQF3OSX2WITwEyIA9+ABoOaUT+aNhSG/fTLdOLOcsl0A2n68AenNDYl6QiBxll3AB1/fXxvQ9FdtpD1V/ivRxhl7O9QzRKAzSvUoEOEP68qM8zEcwtu7rdayA/S9wlq+ghk1PxwUvUl3p3l/3Gnxf19FrLKWFpDJV9YfxAMOhUy1LYyI+Jt/PN0RVu6HuVIutMrYLe7xwHwphj169yNl5GpuEa3xNOvKX8ewx5DM8ZTtxJ1+q7ovP5H9gKi6uwzkkYhpw=')
         }
+      },
+      GetDeptInfo: function(args) {
+        commonStep(args);
+        return {
+          GetDeptInfoResult: resXml('91C34762E580DAB51CB109409F6CE129', '9U5qC4TnA/oF+2+tGlrHYDx6k7alpZa9Eet6QAWpbITnSezzmfSYsWCRpxxOT77S9kiiQ4CD2jc7r6StnRddEj/lXc5fzoyImbuiAGzg8zrJjKwLnJ8IXgdSqdTMinrj+N9RAbTir8uU9Qtl28mNr5p54kJyILtOppYwdzS/d/cqplJKB9tIZrddqQBLog6tn/vKmRGT7HCnCd/cM+VfxcGsVU7RtchTFR6eIokw6cOvrmqd5pMVkn3nQxXPHFrt97i34TeH8ZitGYrt+U29mQ8s+3EBfxHWiuWZoY9XYkIwC8xm+simL5gKa06xvSxT2u66l/gmOQbGUFk4sowzVEcl/b2QQEMCpCjAbZO8IgCY+NQRJajcHEWNg/XoJpEXfZguo36MqzNjLWVEBH4O5Q==')
+        }
       }
     }
   }

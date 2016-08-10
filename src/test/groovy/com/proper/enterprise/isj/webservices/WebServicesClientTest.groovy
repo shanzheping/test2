@@ -63,27 +63,35 @@ class WebServicesClientTest extends AbstractTest {
     }
 
     @Test
+    public void getDeptInfo() {
+        def resModel = client.getDeptInfo('11', '-1')
+        def deptInfo = resModel.getRes()
+        assert deptInfo.deptList != null
+
+        def dept = deptInfo.deptList[0]
+        assert dept.getLevel() != null
+        assert dept.getStatus() != null
+    }
+
+    @Test
     public void signTest() {
         def res = """<RES>
-\t<HOS_ID>1001</HOS_ID>
-\t<NAME>广东省人民医院</NAME>
-\t<SHORT_NAME>省人医</SHORT_NAME>
-\t<ADDRESS>地址</ADDRESS>
-\t<TEL>020-11231112</TEL>
-\t<WEBSITE>http://www.xxx.com</WEBSITE>
-\t<WEIBO></WEIBO>
-\t<LEVEL>3</LEVEL>
-\t<AREA></AREA>
-\t<DESC></DESC>
-\t<SPECIAL></SPECIAL>
-\t<LONGITUDE></LONGITUDE>
-\t<LATITUDE></LATITUDE>
-\t<MAX_REG_DAYS>0</MAX_REG_DAYS>
-\t<START_REG_TIME></START_REG_TIME>
-\t<END_REG_TIME></END_REG_TIME>
-\t<STOP_BOOK_TIMEA></STOP_BOOK_TIMEA>
-\t<STOP_BOOK_TIMEP></STOP_BOOK_TIMEP>
-</RES>"""
+\t<HOS_ID></HOS_ID>
+\t<DEPT_LIST>
+\t\t<DEPT_ID>100101</DEPT_ID>
+\t\t<DEPT_NAME>骨科</DEPT_NAME>
+\t\t<PARENT_ID>-1</PARENT_ID>
+\t\t<DESC></DESC>
+\t\t<LEVEL>1</LEVEL>
+\t\t<ADDRESS>门诊一楼</ADDRESS>
+\t\t<EXPERTISE></EXPERTISE>
+\t\t<STATUS>1</STATUS>
+\t</DEPT_LIST>
+\t<DEPT_LIST>
+\t\t…
+\t</DEPT_LIST>
+</RES>
+"""
         def resEncrypted = aes.encrypt(res)
 
         println "RES_ENCRYPTED: ${resEncrypted}"
