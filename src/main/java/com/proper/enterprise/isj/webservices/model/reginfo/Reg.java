@@ -13,12 +13,24 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Reg {
 
+    /**
+     * 出诊日期，格式：YYYY-MM-DD
+     * 必填
+     */
     @XmlElement(name = "REG_DATE")
     private String regDate;
 
+    /**
+     * 出诊日期对应星期，如：星期五
+     * 必填
+     */
     @XmlElement(name = "REG_WEEKDAY")
     private String regWeekday;
 
+    /**
+     * 医生上午、下午、晚上排班信息集合
+     * 必填
+     */
     @XmlElement(name = "REG_TIME_LIST")
     private List<RegTime> regTimeList;
 

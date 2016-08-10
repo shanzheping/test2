@@ -10,15 +10,31 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RegDoctor {
 
+    /**
+     * 医生ID
+     * 必填
+     */
     @XmlElement(name = "DOCTOR_ID")
     private String doctorId;
 
+    /**
+     * 医生名称
+     * 必填
+     */
     @XmlElement(name = "NAME")
     private String name;
 
+    /**
+     * 医生职称
+     * 必填
+     */
     @XmlElement(name = "JOB_TITLE")
     private String jobTitle;
 
+    /**
+     * 出诊日期集合
+     * 必填
+     */
     @XmlElement(name = "REG_LIST")
     private List<Reg> regList;
 

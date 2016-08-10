@@ -14,30 +14,65 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RegTime {
 
+    /**
+     * 排班ID，如果存在分时，那么挂号的排班ID以分时接口里返回的排班ID为准
+     * 必填
+     */
     @XmlElement(name = "REG_ID")
     private String regId;
 
+    /**
+     * 时段，详见 “时段”
+     * 必填
+     */
     @XmlElement(name = "TIME_FLAG")
     private int timeFlag;
 
+    /**
+     * 出诊状态，详见 “出诊状态”
+     * 必填
+     */
     @XmlElement(name = "REG_STATUS")
     private int regStatus;
 
+    /**
+     * 该时段可挂号源总数，不限号源数量默认传99
+     * 必填
+     */
     @XmlElement(name = "TOTAL")
     private int total = 99;
 
+    /**
+     * 该时段剩余号源数，不限号源数量默认传99
+     * 必填
+     */
     @XmlElement(name = "OVER_COUNT")
     private int overCount = 99;
 
+    /**
+     * 排班类别：1-普通 2-专家 3-急诊
+     */
     @XmlElement(name = "REG_LEVEL")
     private int regLevel;
 
+    /**
+     * 挂号费用，单位：分
+     * 必填
+     */
     @XmlElement(name = "REG_FEE")
     private long regFee;
 
+    /**
+     * 诊疗费用，单位：分
+     * 必填
+     */
     @XmlElement(name = "TREAT_FEE")
     private long treatFee;
 
+    /**
+     * 是否有分时，0-否  1-是
+     * 必填
+     */
     @XmlElement(name = "ISTIME")
     private int isTime;
 
@@ -50,7 +85,7 @@ public class RegTime {
     }
 
     public TimeFlag getTimeFlag() {
-        return TimeFlag.valueOf(timeFlag + "");
+        return TimeFlag.codeOf(timeFlag);
     }
 
     public void setTimeFlag(int timeFlag) {
@@ -58,7 +93,7 @@ public class RegTime {
     }
 
     public RegStatus getRegStatus() {
-        return RegStatus.valueOf(regStatus + "");
+        return RegStatus.codeOf(regStatus);
     }
 
     public void setRegStatus(int regStatus) {
@@ -82,7 +117,7 @@ public class RegTime {
     }
 
     public RegLevel getRegLevel() {
-        return RegLevel.valueOf(regLevel + "");
+        return RegLevel.codeOf(regLevel);
     }
 
     public void setRegLevel(int regLevel) {
@@ -106,7 +141,7 @@ public class RegTime {
     }
 
     public WhetherType getIsTime() {
-        return WhetherType.valueOf(isTime + "");
+        return WhetherType.codeOf(isTime);
     }
 
     public void setIsTime(int isTime) {

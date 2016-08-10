@@ -28,4 +28,13 @@ public enum RegLevel implements IntEnum {
     public int getCode() {
         return code;
     }
+
+    public static RegLevel codeOf(int code) {
+        for (RegLevel regLevel : values()) {
+            if (regLevel.getCode() == code) {
+                return regLevel;
+            }
+        }
+        return null;
+    }
 }

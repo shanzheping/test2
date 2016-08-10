@@ -12,12 +12,24 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RegInfo {
 
+    /**
+     * 医院ID
+     * 必填
+     */
     @XmlElement(name = "HOS_ID")
     private String hosId;
 
+    /**
+     * 科室ID
+     * 必填
+     */
     @XmlElement(name = "DEPT_ID")
     private String deptId;
 
+    /**
+     * 有排班医生集合
+     * 必填
+     */
     @XmlElement(name = "REG_DOCTOR_LIST")
     private List<RegDoctor> regDoctorList;
 

@@ -35,7 +35,7 @@ public class WebServicesClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebServicesClient.class);
 
     @Autowired
-    CipherUtil AES;
+    CipherUtil aes;
 
     @Autowired
     RegSJService regSJService;
@@ -167,47 +167,7 @@ public class WebServicesClient {
      * @param doctorId  医生ID，HIS系统中医生唯一ID，为-1时查询科室ID下所有医生排班
      * @param startDate 排班开始日期，格式：YYYY-MM-DD
      * @param endDate   排班结束日期，格式：YYYY-MM-DD
-     * @return
-     *
-     * <RES>
-     *   <HOS_ID></HOS_ID>                      医院ID
-     *   <DEPT_ID>100101</DEPT_ID>              科室ID
-     *   <REG_DOCTOR_LIST>                      有排班医生集合
-     *     <DOCTOR_ID></DOCTOR_ID>              医生ID
-     *     <NAME>张为</NAME>                     医生名称
-     *     <JOB_TITLE>主治医师</JOB_TITLE>        医生职称
-     *     <REG_LIST>                           出诊日期集合
-     *       <REG_DATE>2014-10-12</REG_DATE>    出诊日期，格式：YYYY-MM-DD
-     *       <REG_WEEKDAY>星期日</REG_WEEKDAY>   出诊日期对应星期，如：星期五
-     *       <REG_TIME_LIST>                    医生上午、下午、晚上排班信息集合
-     *         <REG_ID>1005</REG_ID>            排班ID，如果存在分时，那么挂号的排班ID以分时接口里返回的排班ID为准
-     *         <TIME_FLAG>1</TIME_FLAG>         时段，详见 “时段”
-     *         <REG_STATUS>1</REG_STATUS>       出诊状态，详见 “出诊状态”
-     *         <TOTAL>15</TOTAL>                该时段可挂号源总数，不限号源数量默认传99
-     *         <OVER_COUNT>5</OVER_COUNT>       该时段剩余号源数，不限号源数量默认传99
-     *         <REG_LEVEL>1</REG_LEVEL>         排班类别：1-普通 2-专家 3-急诊
-     *         <REG_FEE>100</REG_FEE>           挂号费用，单位：分
-     *         <TREAT_FEE>1000</TREAT_FEE>      诊疗费用，单位：分
-     *         <ISTIME>1</ISTIME>               是否有分时，0-否  1-是
-     *       </REG_TIME_LIST>
-     *       <REG_TIME_LIST>
-     *         <REG_ID>1005</REG_ID>
-     *         <TIME_FLAG>2</TIME_FLAG>
-     *         <REG_STATUS>1</REG_STATUS>
-     *         <TOTAL>15</TOTAL>
-     *         <OVER_COUNT>5</OVER_COUNT>
-     *         <REG_LEVEL>1</REG_LEVEL>
-     *         <REG_FEE>100</REG_FEE>
-     *         <TREAT_FEE>1000</TREAT_FEE>
-     *         <ISTIME>1</ISTIME>
-     *       </REG_TIME_LIST>
-     *     </REG_LIST>
-     *     <REG_LIST>
-     *       …
-     *     </REG_LIST>
-     *   </REG_DOCTOR_LIST>
-     * </RES>
-     *
+     * @return 排班信息对象
      * @throws Exception
      */
     public RegInfo getRegInfo(String hosId, String deptId, String doctorId, Date startDate, Date endDate) throws Exception {
@@ -225,10 +185,10 @@ public class WebServicesClient {
     private <T> T parseEnvelop(String responseStr, Class<T> clz) throws Exception {
         ResModel resModel = (ResModel) unmarshaller.unmarshal(new StreamSource(new StringReader(responseStr)));
         if (signValid(resModel)) {
-            String res = AES.decrypt(resModel.getResEncrypted());
+            String res = aes.decrypt(resModel.getResEncrypted());
             return (T) unmarshaller.unmarshal(new StreamSource(new StringReader(res)));
         } else {
-            // TODO
+            LOGGER.error("Sign is INVALID!! Could NOT parse response!!");
             return null;
         }
     }

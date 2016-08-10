@@ -43,17 +43,26 @@ class WebServicesClientTest extends AbstractTest {
 
     @Test
     public void getRegInfo() {
-        def resModel = client.getRegInfo('11', '-1', '123', new Date(), new Date())
-        println resModel
+        def regInfo = client.getRegInfo('11', '-1', '123', new Date(), new Date())
+        assert regInfo != null
+        assert regInfo.regDoctorList != null
+        assert regInfo.regDoctorList[0].regList != null
+        assert regInfo.regDoctorList[0].regList[0].regTimeList != null
+
+        def regTime = regInfo.regDoctorList[0].regList[0].regTimeList[0]
+        assert regTime.getTimeFlag() != null
+        assert regTime.getRegStatus() != null
+        assert regTime.getRegLevel() != null
+        assert regTime.getIsTime() != null
     }
 
     @Test
     public void signTest() {
         def res = """<RES>
-\t<HOS_ID></HOS_ID>
+\t<HOS_ID>21010008</HOS_ID>
 \t<DEPT_ID>100101</DEPT_ID>
 \t<REG_DOCTOR_LIST>
-\t\t<DOCTOR_ID></DOCTOR_ID>
+\t\t<DOCTOR_ID>123</DOCTOR_ID>
 \t\t<NAME>张为</NAME>
 \t\t<JOB_TITLE>主治医师</JOB_TITLE>
 \t\t<REG_LIST>
@@ -81,9 +90,6 @@ class WebServicesClientTest extends AbstractTest {
 \t\t\t\t<TREAT_FEE>1000</TREAT_FEE>
 \t\t\t\t<ISTIME>1</ISTIME>
 \t\t\t</REG_TIME_LIST>
-\t\t</REG_LIST>
-\t\t<REG_LIST>
-\t\t\t…
 \t\t</REG_LIST>
 \t</REG_DOCTOR_LIST>
 </RES>"""

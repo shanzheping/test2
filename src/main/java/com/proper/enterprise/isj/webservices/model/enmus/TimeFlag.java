@@ -28,4 +28,13 @@ public enum TimeFlag implements IntEnum {
     public int getCode() {
         return code;
     }
+
+    public static TimeFlag codeOf(int code) {
+        for (TimeFlag timeFlag : values()) {
+            if (timeFlag.getCode() == code) {
+                return timeFlag;
+            }
+        }
+        return null;
+    }
 }

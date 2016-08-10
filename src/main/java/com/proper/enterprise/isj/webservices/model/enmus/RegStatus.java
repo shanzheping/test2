@@ -29,4 +29,13 @@ public enum RegStatus implements IntEnum {
     public int getCode() {
         return code;
     }
+
+    public static RegStatus codeOf(int code) {
+        for (RegStatus regStatus : values()) {
+            if (regStatus.getCode() == code) {
+                return regStatus;
+            }
+        }
+        return null;
+    }
 }
