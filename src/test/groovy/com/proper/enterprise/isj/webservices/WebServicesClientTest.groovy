@@ -33,4 +33,9 @@ class WebServicesClientTest extends AbstractTest {
         assert StringUtil.isNotNull(xml.RES_ENCRYPTED.text())
     }
 
+    @Test
+    public void getRegInfo() {
+        println client.getRegInfo('11', '-1', '123', new Date(), new Date())
+    }
+
 }

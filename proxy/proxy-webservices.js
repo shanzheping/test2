@@ -29,6 +29,16 @@ var myService = {
         return {
           NetTestResult: resXml
         };
+      },
+      GetRegInfo: function(args) {
+        console.log('xml:');
+        console.log(args.xml);
+        parseString(args.xml, function(err, result) {
+          console.log(result.ROOT.FUN_CODE);
+        });
+        return {
+          GetRegInfoResult: resXml
+        };
       }
     }
   }

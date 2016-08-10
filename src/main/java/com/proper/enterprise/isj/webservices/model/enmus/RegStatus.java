@@ -27,6 +27,6 @@ public enum RegStatus implements IntEnum {
 
     @Override
     public int getCode() {
-        return 0;
+        return code;
     }
 }

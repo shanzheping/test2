@@ -2,6 +2,7 @@ package com.proper.enterprise.isj.webservices;
 
 import com.proper.enterprise.isj.webservices.model.OrderRegReq;
 import com.proper.enterprise.isj.webservices.model.ReqModel;
+import com.proper.enterprise.isj.webservices.model.ResModel;
 import com.proper.enterprise.isj.webservices.service.RegSJService;
 import com.proper.enterprise.platform.core.utils.ConfCenter;
 import com.proper.enterprise.platform.core.utils.DateUtil;
@@ -9,11 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.Marshaller;
+import org.springframework.oxm.Unmarshaller;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
@@ -31,6 +35,9 @@ public class WebServicesClient {
 
     @Autowired
     Marshaller marshaller;
+
+    @Autowired
+    Unmarshaller unmarshaller;
 
     /**
      * 在调用其它接口之前用于测试目标服务网络是否通畅，服务是否处于工作状态、数据库是否处于连接状态
@@ -203,7 +210,9 @@ public class WebServicesClient {
         map.put("DOCTOR_ID", doctorId);
         map.put("START_DATE", DateUtil.toDateString(startDate));
         map.put("END_DATE", DateUtil.toDateString(endDate));
-        return invokeWS("getRegInfo", map);
+        String result = invokeWS("getRegInfo", map);
+        ResModel resModel = (ResModel) unmarshaller.unmarshal(new StreamSource(new StringReader(result)));
+        return result;
     }
 
     /**
