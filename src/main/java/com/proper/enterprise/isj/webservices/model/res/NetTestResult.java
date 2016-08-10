@@ -12,6 +12,10 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NetTestResult {
 
+    /**
+     * 返回系统时间，格式：YYYY-MM-DD HH24:MI:SS
+     * 必填
+     */
     @XmlElement(name = "SYSDATE")
     private String sysDate;
 

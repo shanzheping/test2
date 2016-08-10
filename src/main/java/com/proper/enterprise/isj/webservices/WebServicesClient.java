@@ -47,12 +47,7 @@ public class WebServicesClient {
      *
      * @param hosId 医院ID
      * @param ip    请求IP
-     * @return 返回系统时间，格式：YYYY-MM-DD HH24:MI:SS
-     *
-     * <RES>
-     *   <SYSDATE>2014-10-01 20:22:10</SYSDATE>
-     * </RES>
-     *
+     * @return NetTestResult in ResModel
      * @throws Exception
      */
     public ResModel<NetTestResult> netTest(String hosId, String ip) throws Exception {
