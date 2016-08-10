@@ -1,6 +1,6 @@
 package com.proper.enterprise.isj.webservices.model.res;
 
-import com.proper.enterprise.isj.webservices.model.enmus.Level;
+import com.proper.enterprise.isj.webservices.model.enmus.HosLevel;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -176,8 +176,8 @@ public class HosInfo {
         this.weibo = weibo;
     }
 
-    public Level getLevel() {
-        return Level.codeOf(level);
+    public HosLevel getLevel() {
+        return HosLevel.codeOf(level);
     }
 
     public void setLevel(int level) {

@@ -5,7 +5,7 @@ import com.proper.enterprise.platform.core.enums.IntEnum;
 /**
  * 医院等级
  */
-public enum Level implements IntEnum {
+public enum HosLevel implements IntEnum {
 
     /**
      * 其他
@@ -79,7 +79,7 @@ public enum Level implements IntEnum {
 
     private int code;
 
-    Level(int code) {
+    HosLevel(int code) {
         this.code = code;
     }
 
@@ -88,8 +88,8 @@ public enum Level implements IntEnum {
         return code;
     }
 
-    public static Level codeOf(int code) {
-        for (Level level : values()) {
+    public static HosLevel codeOf(int code) {
+        for (HosLevel level : values()) {
             if (level.getCode() == code) {
                 return level;
             }
