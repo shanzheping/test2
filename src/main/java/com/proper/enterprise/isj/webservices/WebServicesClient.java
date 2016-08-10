@@ -8,6 +8,7 @@ import com.proper.enterprise.isj.webservices.service.RegSJService;
 import com.proper.enterprise.platform.core.utils.CipherUtil;
 import com.proper.enterprise.platform.core.utils.ConfCenter;
 import com.proper.enterprise.platform.core.utils.DateUtil;
+import com.proper.enterprise.platform.core.utils.MD5Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class WebServicesClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebServicesClient.class);
 
     @Autowired
-    private CipherUtil AES;
+    CipherUtil AES;
 
     @Autowired
     RegSJService regSJService;
@@ -225,8 +226,7 @@ public class WebServicesClient {
         ResModel resModel = (ResModel) unmarshaller.unmarshal(new StreamSource(new StringReader(responseStr)));
         if (signValid(resModel)) {
             String res = AES.decrypt(resModel.getResEncrypted());
-            T obj = (T) unmarshaller.unmarshal(new StreamSource(new StringReader(res)));
-            return obj;
+            return (T) unmarshaller.unmarshal(new StreamSource(new StringReader(res)));
         } else {
             // TODO
             return null;
@@ -243,9 +243,7 @@ public class WebServicesClient {
                 resModel.getReturnMsg(),
                 ConfCenter.get("isj.key"));
 
-        // TODO
-//        return resModel.getSign().equals(sign);
-        return true;
+        return resModel.getSign().equalsIgnoreCase(MD5Util.md5Hex(sign));
     }
 
     /**

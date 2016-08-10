@@ -1,10 +1,14 @@
 package com.proper.enterprise.isj.webservices
 
 import com.proper.enterprise.platform.core.utils.CipherUtil
+import com.proper.enterprise.platform.core.utils.ConfCenter
+import com.proper.enterprise.platform.core.utils.MD5Util
 import com.proper.enterprise.platform.core.utils.StringUtil
 import com.proper.enterprise.platform.test.AbstractTest
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
+
+import java.text.MessageFormat
 
 class WebServicesClientTest extends AbstractTest {
 
@@ -44,10 +48,8 @@ class WebServicesClientTest extends AbstractTest {
     }
 
     @Test
-    public void test() {
-        println aes.decrypt('SQWUfujhjmzuuKE/ZebPtaKNRRn2hCiyNVuw4vpTptmijUUZ9oQosjVbsOL6U6bZJXw65UnnP7sAe9EOtXDqFmTEpLAZOo7QwtIOyZyA8iVZ/o8OSYwPSz9r3vo9hP9Foo1FGfaEKLI1W7Di+lOm2aKNRRn2hCiyNVuw4vpTptmiYHoaJvXEhiM8MHcK9aRZ')
-        println aes.encrypt("""
-<RES>
+    public void signTest() {
+        def res = """<RES>
 \t<HOS_ID></HOS_ID>
 \t<DEPT_ID>100101</DEPT_ID>
 \t<REG_DOCTOR_LIST>
@@ -84,8 +86,18 @@ class WebServicesClientTest extends AbstractTest {
 \t\t\t…
 \t\t</REG_LIST>
 \t</REG_DOCTOR_LIST>
-</RES>
-""")
+</RES>"""
+        def resEncrypted = aes.encrypt(res)
+
+        println "RES_ENCRYPTED: ${resEncrypted}"
+
+        String sign = MessageFormat.format(
+                ConfCenter.get("isj.template.sign.res"),
+                resEncrypted,
+                '0',
+                '交易成功',
+                ConfCenter.get("isj.key"));
+        println "SIGN: ${MD5Util.md5Hex(sign).toUpperCase()}"
     }
 
 }
