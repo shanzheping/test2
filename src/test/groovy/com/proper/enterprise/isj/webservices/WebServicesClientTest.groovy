@@ -1,5 +1,7 @@
 package com.proper.enterprise.isj.webservices
 
+import com.proper.enterprise.isj.webservices.model.req.OrderRegReq
+import com.proper.enterprise.platform.core.enums.WhetherType
 import com.proper.enterprise.platform.core.utils.CipherUtil
 import com.proper.enterprise.platform.core.utils.ConfCenter
 import com.proper.enterprise.platform.core.utils.MD5Util
@@ -74,26 +76,39 @@ class WebServicesClientTest extends AbstractTest {
     }
 
     @Test
+    public void orderReg() {
+        def req = new OrderRegReq()
+        def resModel = client.orderReg(req)
+        def res = resModel.getRes()
+        assert res.concessions != null
+        assert res.isConcessions == WhetherType.YES || res.isConcessions == WhetherType.NO
+
+        def concession = res.concessions[0]
+        assert concession.concessionsFee >= 0
+    }
+
+    @Test
     public void signTest() {
         def res = """<RES>
-\t<HOS_ID></HOS_ID>
-\t<DEPT_LIST>
-\t\t<DEPT_ID>100101</DEPT_ID>
-\t\t<DEPT_NAME>骨科</DEPT_NAME>
-\t\t<PARENT_ID>-1</PARENT_ID>
-\t\t<DESC></DESC>
-\t\t<LEVEL>1</LEVEL>
-\t\t<ADDRESS>门诊一楼</ADDRESS>
-\t\t<EXPERTISE></EXPERTISE>
-\t\t<STATUS>1</STATUS>
-\t</DEPT_LIST>
-\t<DEPT_LIST>
-\t\t…
-\t</DEPT_LIST>
-</RES>
-"""
+\t<HOSP_PATIENT_ID>A001</HOSP_PATIENT_ID>
+\t<HOSP_ORDER_ID>123</HOSP_ORDER_ID>
+\t<HOSP_SERIAL_NUM></HOSP_SERIAL_NUM>
+\t<HOSP_MEDICAL_NUM></HOSP_MEDICAL_NUM>
+\t<HOSP_GETREG_DATE></HOSP_GETREG_DATE>
+\t<HOSP_SEE_DOCT_ADDR></HOSP_SEE_DOCT_ADDR>
+\t<HOSP_REMARK></HOSP_REMARK>
+\t<HOSP_CARD_NO></HOSP_CARD_NO>
+\t<IS_CONCESSIONS></IS_CONCESSIONS>
+\t<CONCESSIONS>
+\t\t<CONCESSIONS_FEE></CONCESSIONS_FEE>
+\t\t<REAL_REG_FEE></REAL_REG_FEE>
+\t\t<REAL_TREAT_FEE></REAL_TREAT_FEE>
+\t\t<REAL_TOTAL_FEE></REAL_TOTAL_FEE>
+\t\t<CONCESSIONS_TYPE></CONCESSIONS_TYPE>
+\t</CONCESSIONS>
+</RES>"""
         def resEncrypted = aes.encrypt(res)
-
+        assert StringUtil.isNotNull(resEncrypted)
         println "RES_ENCRYPTED: ${resEncrypted}"
 
         String sign = MessageFormat.format(
@@ -102,6 +117,7 @@ class WebServicesClientTest extends AbstractTest {
                 '0',
                 '交易成功',
                 ConfCenter.get("isj.key"));
+        assert StringUtil.isNotNull(sign);
         println "SIGN: ${MD5Util.md5Hex(sign).toUpperCase()}"
     }
 

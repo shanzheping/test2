@@ -175,31 +175,12 @@ public class WebServicesClient {
      * 如果平台方不为空，则医院根据传入的用户ID去挂号。
      *
      * @param orderRegReq   预约挂号请求对象
-     * @return
-     *
-     * <RES>
-     *   <HOSP_PATIENT_ID>A001</HOSP_PATIENT_ID>    医院病人ID
-     *   <HOSP_ORDER_ID>123</HOSP_ORDER_ID>         医院订单号
-     *   <HOSP_SERIAL_NUM></HOSP_SERIAL_NUM>        医院候诊号
-     *   <HOSP_MEDICAL_NUM></HOSP_MEDICAL_NUM>      医院病历号或门诊号
-     *   <HOSP_GETREG_DATE></HOSP_GETREG_DATE>      医院取号时间段，格式：HH24MI-HH24MI
-     *   <HOSP_SEE_DOCT_ADDR></HOSP_SEE_DOCT_ADDR>  医院就诊地址
-     *   <HOSP_REMARK></HOSP_REMARK>                备注
-     *   <HOSP_CARD_NO></HOSP_CARD_NO>              本次就诊院内就诊卡，主要用户首诊用户挂号后在医院开卡，返回通知平台用户凭此卡就诊
-     *   <IS_CONCESSIONS></IS_CONCESSIONS>          是否享受院内优惠：0-不享受 1-享受
-     *   <CONCESSIONS>                              优惠信息，当IS_CONCESSIONS=1必传
-     *     <CONCESSIONS_FEE></CONCESSIONS_FEE>      本次挂号优惠的总金额，无优惠返回0，单位：分
-     *     <REAL_REG_FEE></REAL_REG_FEE>            在院内优惠后实际需要支付的挂号费，无优惠返回原挂号费，单位：分
-     *     <REAL_TREAT_FEE></REAL_TREAT_FEE>        在院内优惠后实际需要支付的诊疗费，无优惠返回原诊疗费，单位：分
-     *     <REAL_TOTAL_FEE></REAL_TOTAL_FEE>        在院内优惠后实际需要支付的总费用，无优惠返回原挂号费用，单位：分
-     *     <CONCESSIONS_TYPE></CONCESSIONS_TYPE>    优惠类型，例：老人优惠，军人优惠等
-     *   </CONCESSIONS>
-     * </RES>
-     *
+     * @return 响应对象及预约挂号信息
      * @throws Exception
      */
-    public String orderReg(OrderRegReq orderRegReq) throws Exception {
-        return invokeWS("orderReg", orderRegReq.toParams());
+    public ResModel<OrderReg> orderReg(OrderRegReq orderRegReq) throws Exception {
+        String res = invokeWS("orderReg", orderRegReq.toParams());
+        return parseEnvelop(res, OrderReg.class);
     }
 
 }

@@ -53,6 +53,12 @@ var myService = {
         return {
           GetDeptInfoResult: resXml('91C34762E580DAB51CB109409F6CE129', '9U5qC4TnA/oF+2+tGlrHYDx6k7alpZa9Eet6QAWpbITnSezzmfSYsWCRpxxOT77S9kiiQ4CD2jc7r6StnRddEj/lXc5fzoyImbuiAGzg8zrJjKwLnJ8IXgdSqdTMinrj+N9RAbTir8uU9Qtl28mNr5p54kJyILtOppYwdzS/d/cqplJKB9tIZrddqQBLog6tn/vKmRGT7HCnCd/cM+VfxcGsVU7RtchTFR6eIokw6cOvrmqd5pMVkn3nQxXPHFrt97i34TeH8ZitGYrt+U29mQ8s+3EBfxHWiuWZoY9XYkIwC8xm+simL5gKa06xvSxT2u66l/gmOQbGUFk4sowzVEcl/b2QQEMCpCjAbZO8IgCY+NQRJajcHEWNg/XoJpEXfZguo36MqzNjLWVEBH4O5Q==')
         }
+      },
+      OrderReg: function(args) {
+        commonStep(args);
+        return {
+          OrderRegResult: resXml('77B4C7EBC1F1EDFFFD7100C812C2CA79', 'OgjuLBvA0dBE86sMU9oaCPsPph7mFuO/anOHjSWeX6+beQgJ0fzT9DUCigcfTtH8zKFqCPqaaxwc56E8QPpMuwgFP2KBMO/K8r6bMi2v4QvOi9gkN3RPydNKaKR4mDdHrbxIqhCapknyXNoAoqUJvSC+heYGbeWgxPMSJqwocyF1rjGSFnDehMZbpnQxOhqiN0kwL8uTMuCohbi2ZfSqhf1u1Udq+njzth466HuHx/z8dybAL1CXpVhKXXTDRbv24eiH5a5yXcl3S6rxEDd2+cKPvBJchq0jTyAxftqGcChyiH0f1aeVV57giVc63NkQxHf8UhGAWRuQ8AgI9ff5bFg6a67tMCcEiCLbgoRp9UAiZ6rpdxr6Q42QFAD5TeZDJbOJKoHg2A99TLblrdLqGffi6/SPi/eiD1pRn215qAVh72kQUFbOEj1vXlN45iQ0pJnbVktx/wcHznFXTE8sl3R6D+KQNopVuTA7wx0fCaMFTrxTscGLUgeyengRn45LpuSTvGXjiC5VCJFGCHpzyWyAagrAwTa4k7VyYY8XdZ1DugWPCEMWgAyGzNkManuHL6fs/Ezm5l83SewkmcalO9OQKRWQUTg0mACKbSRiIAfpSrhsVvQQkhcUKQEtjOtBjOS3xN2tTSR/sBzroESYuG6feJAZll5pD81CzQxuJCEtZDXtxoEnXozq9G17kvPte1rCtAJTXcp0DaBaef+RVJ+VviVob1EkMtCUhYw5hP8=')
+        }
       }
     }
   }

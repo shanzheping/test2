@@ -32,6 +32,9 @@
     <oxm:jaxb2-marshaller id="unmarshallDeptInfo">
         <oxm:class-to-be-bound name="com.proper.enterprise.isj.webservices.model.res.DeptInfo" />
     </oxm:jaxb2-marshaller>
+    <oxm:jaxb2-marshaller id="unmarshallOrderReg">
+        <oxm:class-to-be-bound name="com.proper.enterprise.isj.webservices.model.res.OrderReg" />
+    </oxm:jaxb2-marshaller>
 
     <bean id="aes" class="com.proper.enterprise.platform.core.utils.CipherUtil" factory-method="getInstance">
         <constructor-arg name="algorithm" value="${isj.algorithm}" />
