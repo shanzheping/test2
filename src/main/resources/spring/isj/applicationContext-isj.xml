@@ -12,7 +12,7 @@
 
     <context:property-placeholder location="classpath:conf/isj/isj.properties" ignore-unresolvable="true" />
 
-    <bean id="regSJWebService" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
+    <bean id="regSJWebService" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean" lazy-init="true">
         <property name="serviceInterface" value="com.proper.enterprise.isj.webservices.service.RegSJService" />
         <property name="wsdlDocumentUrl" value="${isj.wsdlUrl}" />
         <property name="namespaceUri" value="http://tempuri.org/" />
