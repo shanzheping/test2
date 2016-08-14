@@ -11,7 +11,11 @@ public class CDATAAdapter extends XmlAdapter<String, String> {
 
     @Override
     public String marshal(String v) throws Exception {
-        return "<![CDATA[" + v + "]]>";
+        return wrapCDATA(v);
+    }
+
+    public static String wrapCDATA(String str) {
+        return "<![CDATA[" + str + "]]>";
     }
 
 }

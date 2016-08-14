@@ -36,12 +36,8 @@ public class ReqEncryptedAdapter extends XmlAdapter<String, Map<String, String>>
             sb.append(MessageFormat.format(ConfCenter.get("isj.template.req"), entry.getKey(), entry.getValue()));
         }
         sb.append("</REQ>");
-
-        if (needCDATA) {
-            return "<![CDATA[" + AES.encrypt(sb.toString()) + "]]>";
-        } else {
-            return AES.encrypt(sb.toString());
-        }
+        String result = AES.encrypt(sb.toString());
+        return needCDATA ? CDATAAdapter.wrapCDATA(result) : result;
     }
 
 }

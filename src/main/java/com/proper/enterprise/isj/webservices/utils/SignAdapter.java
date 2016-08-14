@@ -31,7 +31,7 @@ public class SignAdapter extends XmlAdapter<String, ReqModel> {
                 StringUtil.abbreviate(sign,
                         Integer.parseInt(ConfCenter.get("isj.abbreviate.maxWidth"))));
         // 东软接口只识别大写 MD5
-        return "<![CDATA[" + MD5Util.md5Hex(sign).toUpperCase() + "]]>";
+        return CDATAAdapter.wrapCDATA(MD5Util.md5Hex(sign).toUpperCase());
     }
 
 }
