@@ -1,16 +1,16 @@
-package com.proper.enterprise.isj.pay;
+package com.proper.enterprise.isj.pay.weixin;
 
 import com.proper.enterprise.platform.core.utils.ConfCenter;
 
-public class PayConstants {
+public class WeixinConstants {
 
     /**
      * 服务号相关信息
      */
-    public final static String APPID = "wx823ed192dc8b780e";//服务号的应用号
+    public final static String APPID = ConfCenter.get("isj.pay.wx.appId");//服务号的应用号
     public final static String APP_SECRECT = "";//服务号的应用密码
     public final static String TOKEN = "weixinCourse";//服务号的配置token
-    public final static String MCH_ID = "1260444001";//商户号
+    public final static String MCH_ID = ConfCenter.get("isj.pay.wx.mchId");//商户号
     public final static String API_KEY = "liaoninglvshushiyeyouxiangongsi1";//API密钥
     public final static String SIGN_TYPE = "MD5";//签名加密方式
     public final static String CERT_PATH = "D:/apiclient_cert.p12";//微信支付证书存放路径地址
