@@ -27,7 +27,7 @@ public class SignAdapter extends XmlAdapter<String, UnifiedOrderReq> {
         Field[] fields = UnifiedOrderReq.class.getDeclaredFields();
         Set<String> set = new TreeSet<>();
         for (Field field : fields) {
-            if (!field.getName().equals("sign")) {
+            if (!field.getName().equals("sign") && !field.getName().startsWith("$")) {
                 set.add(field.getName());
             }
         }

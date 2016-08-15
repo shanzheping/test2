@@ -194,19 +194,19 @@ public class UnifiedOrderReq {
     }
 
     public Date getTimeStart() {
-        return timeStart;
+        return timeStart == null ? null : (Date) timeStart.clone();
     }
 
     public void setTimeStart(Date timeStart) {
-        this.timeStart = timeStart;
+        this.timeStart = (Date) timeStart.clone();
     }
 
     public Date getTimeExpire() {
-        return timeExpire;
+        return timeExpire == null ? null : (Date) timeExpire.clone();
     }
 
     public void setTimeExpire(Date timeExpire) {
-        this.timeExpire = timeExpire;
+        this.timeExpire = (Date) timeExpire.clone();
     }
 
     public UnifiedOrderReq getSign() {
