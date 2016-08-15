@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,8 +39,8 @@ public class WeixinPayController extends BaseController {
     @Autowired
     Unmarshaller unmarshaller;
 
-    @RequestMapping(value="/prepayInfo")
-    public ResponseEntity<Map<String, String>> getWXPrepayInfo(HttpServletRequest request, UnifiedOrderReq uoReq) throws IOException {
+    @PostMapping(value = "/prepayInfo", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Map<String, String>> getWXPrepayInfo(@RequestBody UnifiedOrderReq uoReq, HttpServletRequest request) throws IOException {
         uoReq.setNonceStr(RandomStringUtils.randomAlphabetic(WeixinConstants.RANDOM_LEN));
         uoReq.setOutTradeNo(RandomStringUtils.randomAlphabetic(16)); // TODO
         uoReq.setSpbillCreateIp(request.getRemoteAddr());
