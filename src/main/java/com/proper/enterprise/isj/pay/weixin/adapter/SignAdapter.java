@@ -35,7 +35,7 @@ public class SignAdapter extends XmlAdapter<String, UnifiedOrderReq> {
         StringBuilder sb = new StringBuilder();
         Object value;
         for (String fieldName : set) {
-            value = UnifiedOrderReq.class.getDeclaredField(fieldName).get(v);
+            value = UnifiedOrderReq.class.getMethod("get" + StringUtil.capitalize(fieldName)).invoke(v);
             if (value != null) {
                 sb.append(StringUtil.camelToSnake(fieldName)).append("=").append(value).append("&");
             }
