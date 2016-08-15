@@ -1,52 +1,84 @@
 package com.proper.enterprise.isj.pay.weixin.model;
 
 import com.proper.enterprise.isj.pay.weixin.WeixinConstants;
+import com.proper.enterprise.isj.pay.weixin.adapter.SignAdapter;
+import com.proper.enterprise.isj.pay.weixin.adapter.TimestampAdapter;
 import com.proper.enterprise.platform.core.utils.ConfCenter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.util.Date;
+
+@XmlRootElement(name = "xml")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class UnifiedOrderReq {
 
-    private String appId = WeixinConstants.APPID;
+    @XmlElement(name = "appid")
+    private String appid = WeixinConstants.APPID;
 
+    @XmlElement(name = "mch_id")
     private String mchId = WeixinConstants.MCH_ID;
 
+    @XmlElement(name = "device_info")
     private String deviceInfo = "WEB";
 
+    @XmlElement(name = "nonce_str")
     private String nonceStr;
 
-    private String sign;
+    @XmlElement(name = "sign")
+    @XmlJavaTypeAdapter(SignAdapter.class)
+    private UnifiedOrderReq sign = this;
 
+    @XmlElement(name = "body")
     private String body;
 
+    @XmlElement(name = "detail")
     private String detail;
 
+    @XmlElement(name = "attach")
     private String attach;
 
+    @XmlElement(name = "out_trade_no")
     private String outTradeNo;
 
+    @XmlElement(name = "fee_type")
     private String feeType = "CNY";
 
+    @XmlElement(name = "total_fee")
     private int totalFee;
 
+    @XmlElement(name = "spbill_create_ip")
     private String spbillCreateIp;
 
-    private String timeStart;
+    @XmlElement(name = "time_start")
+    @XmlJavaTypeAdapter(TimestampAdapter.class)
+    private Date timeStart;
 
-    private String timeExpire;
+    @XmlElement(name = "time_expire")
+    @XmlJavaTypeAdapter(TimestampAdapter.class)
+    private Date timeExpire;
 
+    @XmlElement(name = "goods_tag")
     private String goodsTag;
 
+    @XmlElement(name = "notify_url")
     private String notifyUrl = ConfCenter.get("isj.pay.wx.url.notify");
 
+    @XmlElement(name = "trade_type")
     private String tradeType = "APP";
 
+    @XmlElement(name = "limit_pay")
     private String limitPay;
 
-    public String getAppId() {
-        return appId;
+    public String getAppid() {
+        return appid;
     }
 
-    public void setAppId(String appId) {
-        this.appId = appId;
+    public void setAppid(String appid) {
+        this.appid = appid;
     }
 
     public String getMchId() {
@@ -71,14 +103,6 @@ public class UnifiedOrderReq {
 
     public void setNonceStr(String nonceStr) {
         this.nonceStr = nonceStr;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public void setSign(String sign) {
-        this.sign = sign;
     }
 
     public String getBody() {
@@ -129,22 +153,6 @@ public class UnifiedOrderReq {
         this.totalFee = totalFee;
     }
 
-    public String getTimeStart() {
-        return timeStart;
-    }
-
-    public void setTimeStart(String timeStart) {
-        this.timeStart = timeStart;
-    }
-
-    public String getTimeExpire() {
-        return timeExpire;
-    }
-
-    public void setTimeExpire(String timeExpire) {
-        this.timeExpire = timeExpire;
-    }
-
     public String getGoodsTag() {
         return goodsTag;
     }
@@ -183,5 +191,29 @@ public class UnifiedOrderReq {
 
     public void setSpbillCreateIp(String spbillCreateIp) {
         this.spbillCreateIp = spbillCreateIp;
+    }
+
+    public Date getTimeStart() {
+        return timeStart;
+    }
+
+    public void setTimeStart(Date timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public Date getTimeExpire() {
+        return timeExpire;
+    }
+
+    public void setTimeExpire(Date timeExpire) {
+        this.timeExpire = timeExpire;
+    }
+
+    public UnifiedOrderReq getSign() {
+        return sign;
+    }
+
+    public void setSign(UnifiedOrderReq sign) {
+        this.sign = sign;
     }
 }

@@ -208,14 +208,9 @@ public class OrderRegReq {
             } else {
                 fieldValue = value + "";
             }
-            params.put(camelToSnakeUpperCase(fieldName), fieldValue);
+            params.put(StringUtil.camelToSnake(fieldName).toUpperCase(), fieldValue);
         }
         return params;
-    }
-
-    private String camelToSnakeUpperCase(String camel) {
-        String[] strs = StringUtil.splitByCharacterTypeCamelCase(camel);
-        return StringUtil.join(strs, "_").toUpperCase();
     }
 
     public String getOrderId() {

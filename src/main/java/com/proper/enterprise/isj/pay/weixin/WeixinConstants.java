@@ -11,7 +11,7 @@ public class WeixinConstants {
     public final static String APP_SECRECT = "";//服务号的应用密码
     public final static String TOKEN = "weixinCourse";//服务号的配置token
     public final static String MCH_ID = ConfCenter.get("isj.pay.wx.mchId");//商户号
-    public final static String API_KEY = "liaoninglvshushiyeyouxiangongsi1";//API密钥
+    public final static String API_KEY = ConfCenter.get("isj.pay.wx.apiKey");//API密钥
     public final static String SIGN_TYPE = "MD5";//签名加密方式
     public final static String CERT_PATH = "D:/apiclient_cert.p12";//微信支付证书存放路径地址
     //微信支付统一接口的回调action
@@ -54,5 +54,8 @@ public class WeixinConstants {
     public final static String SHORT_URL = "https://api.mch.weixin.qq.com/tools/shorturl";
     //接口调用上报接口(POST)
     public final static String REPORT_URL = "https://api.mch.weixin.qq.com/payitil/report";
+
+    public final static String TIME_FORMAT = ConfCenter.get("isj.pay.wx.timeFormat");
+    public final static int RANDOM_LEN = ConfCenter.getInt("isj.pay.wx.randomLen", 32);
 
 }

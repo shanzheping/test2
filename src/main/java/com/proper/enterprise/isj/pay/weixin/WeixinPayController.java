@@ -3,7 +3,6 @@ package com.proper.enterprise.isj.pay.weixin;
 import com.proper.enterprise.isj.pay.weixin.model.UnifiedOrderReq;
 import com.proper.enterprise.isj.pay.weixin.model.UnifiedOrderRes;
 import com.proper.enterprise.platform.core.controller.BaseController;
-import com.proper.enterprise.platform.core.utils.ConfCenter;
 import com.proper.enterprise.platform.core.utils.HttpClient;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -40,7 +39,7 @@ public class WeixinPayController extends BaseController {
 
     @RequestMapping(value="/prepayInfo")
     public ResponseEntity<Map<String, String>> getWXPrepayInfo(HttpServletRequest request, UnifiedOrderReq uoReq) throws IOException {
-        uoReq.setNonceStr(RandomStringUtils.randomAlphabetic(Integer.parseInt(ConfCenter.get("isj.pay.wx.randomLen", "16"))));
+        uoReq.setNonceStr(RandomStringUtils.randomAlphabetic(WeixinConstants.RANDOM_LEN));
         uoReq.setOutTradeNo(RandomStringUtils.randomAlphabetic(16)); // TODO
         uoReq.setSpbillCreateIp(request.getRemoteAddr());
 
