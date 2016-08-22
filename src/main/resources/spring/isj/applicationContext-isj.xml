@@ -36,12 +36,10 @@
         <oxm:class-to-be-bound name="com.proper.enterprise.isj.webservices.model.res.OrderReg" />
     </oxm:jaxb2-marshaller>
 
-    <bean id="aes" class="com.proper.enterprise.platform.core.utils.CipherUtil" factory-method="getInstance">
-        <constructor-arg name="algorithm" value="${isj.algorithm}" />
+    <bean id="hisAES" class="com.proper.enterprise.platform.core.utils.cipher.AES">
         <constructor-arg name="mode" value="${isj.mode}" />
         <constructor-arg name="padding" value="${isj.padding}" />
         <constructor-arg name="key" value="${isj.key}" />
-        <constructor-arg name="keySize" value="${isj.keySize}" />
     </bean>
 
     <beans profile="dev">

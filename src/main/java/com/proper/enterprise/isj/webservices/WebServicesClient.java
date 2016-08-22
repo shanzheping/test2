@@ -4,13 +4,14 @@ import com.proper.enterprise.isj.webservices.model.req.OrderRegReq;
 import com.proper.enterprise.isj.webservices.model.req.ReqModel;
 import com.proper.enterprise.isj.webservices.model.res.*;
 import com.proper.enterprise.isj.webservices.service.RegSJService;
-import com.proper.enterprise.platform.core.utils.CipherUtil;
 import com.proper.enterprise.platform.core.utils.ConfCenter;
 import com.proper.enterprise.platform.core.utils.DateUtil;
 import com.proper.enterprise.platform.core.utils.MD5Util;
+import com.proper.enterprise.platform.core.utils.cipher.AES;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,9 @@ public class WebServicesClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebServicesClient.class);
 
     @Autowired WebApplicationContext wac;
-    @Autowired CipherUtil aes;
+    @Autowired
+    @Qualifier("hisAES")
+    AES aes;
     @Autowired RegSJService regSJService;
     @Autowired Marshaller marshaller;
     @Autowired Unmarshaller unmarshaller;

@@ -1,9 +1,9 @@
 package com.proper.enterprise.isj.webservices.utils
 
 import com.proper.enterprise.isj.webservices.model.req.ReqModel
-import com.proper.enterprise.platform.core.utils.CipherUtil
 import com.proper.enterprise.platform.core.utils.ConfCenter
 import com.proper.enterprise.platform.core.utils.MD5Util
+import com.proper.enterprise.platform.core.utils.cipher.AES
 import com.proper.enterprise.platform.test.AbstractTest
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -39,12 +39,10 @@ class ComposeRequestTest extends AbstractTest {
             reqEnc += "<$key><![CDATA[$value]]></$key>"
         }
         reqEnc += '</REQ>'
-        CipherUtil aes = CipherUtil.getInstance(
-                ConfCenter.get("isj.algorithm"),
+        AES aes = new AES(
                 ConfCenter.get("isj.mode"),
                 ConfCenter.get("isj.padding"),
-                ConfCenter.get("isj.key"),
-                Integer.parseInt(ConfCenter.get("isj.keySize")));
+                ConfCenter.get("isj.key"));
         reqEnc = aes.encrypt(reqEnc);
         assert xml.REQ_ENCRYPTED.text() == "<![CDATA[" + reqEnc + "]]>"
 

@@ -2,13 +2,14 @@ package com.proper.enterprise.isj.webservices
 
 import com.proper.enterprise.isj.webservices.model.req.OrderRegReq
 import com.proper.enterprise.platform.core.enums.WhetherType
-import com.proper.enterprise.platform.core.utils.CipherUtil
 import com.proper.enterprise.platform.core.utils.ConfCenter
 import com.proper.enterprise.platform.core.utils.MD5Util
 import com.proper.enterprise.platform.core.utils.StringUtil
+import com.proper.enterprise.platform.core.utils.cipher.AES
 import com.proper.enterprise.platform.test.AbstractTest
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 
 import java.text.MessageFormat
 
@@ -18,7 +19,8 @@ class WebServicesClientTest extends AbstractTest {
     WebServicesClient client
 
     @Autowired
-    CipherUtil aes;
+    @Qualifier('hisAES')
+    AES aes;
 
     @Test
     public void reqNotTransferred() {

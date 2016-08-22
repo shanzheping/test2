@@ -1,6 +1,5 @@
 package com.proper.enterprise.isj.webservices.utils;
 
-import com.proper.enterprise.platform.core.utils.CipherUtil;
 import com.proper.enterprise.platform.core.utils.ConfCenter;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
@@ -9,15 +8,13 @@ import java.util.Map;
 
 public class ReqEncryptedAdapter extends XmlAdapter<String, Map<String, String>> {
 
-    private static final CipherUtil AES;
+    private static final com.proper.enterprise.platform.core.utils.cipher.AES AES;
 
     static {
-        AES = CipherUtil.getInstance(
-                ConfCenter.get("isj.algorithm"),
+        AES = new com.proper.enterprise.platform.core.utils.cipher.AES(
                 ConfCenter.get("isj.mode"),
                 ConfCenter.get("isj.padding"),
-                ConfCenter.get("isj.key"),
-                Integer.parseInt(ConfCenter.get("isj.keySize")));
+                ConfCenter.get("isj.key"));
     }
 
     @Override
