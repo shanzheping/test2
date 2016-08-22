@@ -19,6 +19,7 @@ var serverLog = function(type, data) {
 var register = function(path) {
   var handler = require('.' + path + '/handler.js');
   var xml = require('fs').readFileSync('proxy' + path + '/wsdl.wsdl', 'utf8');
+  xml = xml.replace(/:address location=".*" \/>/g, ':address location="http://localhost:8080' + path + '" />');
   soap.listen(server, path, handler.service, xml).log = serverLog;
 };
 
