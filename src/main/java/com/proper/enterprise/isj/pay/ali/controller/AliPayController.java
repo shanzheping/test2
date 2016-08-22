@@ -8,10 +8,12 @@ import com.proper.enterprise.isj.pay.ali.model.UnifiedOrderReq;
 import com.proper.enterprise.isj.pay.ali.service.AliService;
 import com.proper.enterprise.platform.core.controller.BaseController;
 import com.proper.enterprise.platform.core.utils.ConfCenter;
+import com.proper.enterprise.platform.core.utils.cipher.RSA;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -44,18 +45,20 @@ public class AliPayController extends BaseController {
     @Autowired
     OrderService orderService;
 
+    @Autowired
+    @Qualifier("aliRSA")
+    RSA rsa;
+
     @PostMapping(value="/prepayInfo", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Map<String,String>> getPrepayinfo(@RequestBody UnifiedOrderReq uoReq) throws UnsupportedEncodingException {
+    public ResponseEntity<Map<String,String>> getPrepayinfo(@RequestBody UnifiedOrderReq uoReq) throws Exception {
 
         // 取得订单信息
         String orderInfo = getOrderInfo(uoReq);
         // 获取秘钥
         String privateKey = AliConstants.ALI_PAY_RSA_PRIVATE;
         // 对订单信息进行签名
-        LOGGER.info("orderInfo:" + orderInfo);
-        String sign = sign(orderInfo, privateKey, "UTF-8");
-        LOGGER.info("before_sign:" + sign);
-        LOGGER.info("compare_result:" + String.valueOf(sign.equals("ei7BMWa0cnGmcyEnDwZuNBYquG6Omq/FcWrx/Ft4Be20CvbLvPdC6H+UoNtbl+IhVENipDXkY4b4QMP0wlEfN7QqDyznbJqLRMSb3P+wVaUW21GVMilXCfYE8m8Y7tfse750d2EGSKDnQYmMgHJm+cFE0Lxwnj8AaQfuAoKbvaI="))); //TODO
+        String sign = rsa.sign(orderInfo, privateKey);
+        //String sign = sign(orderInfo, privateKey, "UTF-8");
         sign = URLEncoder.encode(sign, "UTF-8");
         // 完整的符合支付宝参数规范的订单信息
         final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + "sign_type=\"RSA\"";
@@ -237,46 +240,11 @@ public class AliPayController extends BaseController {
     }
 
     /**
-     * RSA签名
-     * @param content 待签名数据
-     * @param privateKey 商户私钥
-     * @param input_charset 编码格式
-     * @return 签名值
-     */
-    public static String sign(String content, String privateKey, String input_charset)
-    {
-        try
-        {
-            PKCS8EncodedKeySpec priPKCS8 	= new PKCS8EncodedKeySpec(Base64.decode(privateKey));
-            KeyFactory keyf 				= KeyFactory.getInstance("RSA");
-            PrivateKey priKey 				= keyf.generatePrivate(priPKCS8);
-
-            java.security.Signature signature = java.security.Signature
-                    .getInstance("SHA1WithRSA");
-
-            signature.initSign(priKey);
-            signature.update(content.getBytes(input_charset) );
-
-            byte[] signed = signature.sign();
-
-            //return Base64.encode(signed).replace("\n", "");
-            return Base64.encode(signed);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
-        }
-
-        return null;
-    }
-
-    /**
      * 验证消息是否是支付宝发出的合法消息
      * @param params 通知返回来的参数数组
      * @return 验证结果
      */
-    public static boolean verify(Map<String, String> params) {
+    public boolean verify(Map<String, String> params) throws Exception {
 
         //判断responsetTxt是否为true，isSign是否为true
         //responsetTxt的结果不是true，与服务器设置问题、合作身份者ID、notify_id一分钟失效有关
@@ -351,7 +319,7 @@ public class AliPayController extends BaseController {
      * @param sign 比对的签名结果
      * @return 生成的签名结果
      */
-    private static boolean getSignVeryfy(Map<String, String> Params, String sign) {
+    private boolean getSignVeryfy(Map<String, String> Params, String sign) throws Exception {
         //过滤空值、sign与sign_type参数
         Map<String, String> sParaNew = paraFilter(Params);
         //获取待签名字符串
@@ -359,7 +327,8 @@ public class AliPayController extends BaseController {
         //获得签名验证结果
         boolean isSign = false;
         if(AliConstants.ALI_PAY_SIGN_TYPE.equals("RSA")){
-            isSign = rsaVerify(preSignStr, sign, AliConstants.ALI_PAY_RSA_PUBLIC, "utf-8");
+            //isSign = rsaVerify(preSignStr, sign, AliConstants.ALI_PAY_RSA_PUBLIC, "utf-8");
+            isSign = rsa.verifySign(preSignStr, sign, AliConstants.ALI_PAY_RSA_PUBLIC);
         }
         return isSign;
     }
