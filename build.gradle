@@ -50,7 +50,7 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 group = 'com.proper'
-version = '0.1.0-SNAPSHOT'
+version = '0.1.0-isj-SNAPSHOT'
 
 gretty {
     servletContainer = 'tomcat7'
