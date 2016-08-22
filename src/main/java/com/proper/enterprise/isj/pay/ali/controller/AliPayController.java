@@ -9,24 +9,24 @@ import com.proper.enterprise.isj.pay.ali.service.AliService;
 import com.proper.enterprise.platform.core.PEPConstants;
 import com.proper.enterprise.platform.core.controller.BaseController;
 import com.proper.enterprise.platform.core.utils.ConfCenter;
+import com.proper.enterprise.platform.core.utils.DateUtil;
+import com.proper.enterprise.platform.core.utils.HttpClient;
+import com.proper.enterprise.platform.core.utils.StringUtil;
 import com.proper.enterprise.platform.core.utils.cipher.RSA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -54,12 +54,13 @@ public class AliPayController extends BaseController {
         String privateKey = AliConstants.ALI_PAY_RSA_PRIVATE;
         // 对订单信息进行签名
         String sign = rsa.sign(orderInfo, privateKey);
-        //String sign = sign(orderInfo, privateKey, "UTF-8");
-        sign = URLEncoder.encode(sign, "UTF-8");
+        // TODO 是否有必要做 URL encode?
+        sign = URLEncoder.encode(sign, PEPConstants.DEFAULT_CHARSET.name());
         // 完整的符合支付宝参数规范的订单信息
         final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + "sign_type=\"RSA\"";
         // 定义返回参数
-        Map<String, String> retObj = new HashMap<String, String>();
+        Map<String, String> retObj = new HashMap<>();
+        // TODO 响应能否定义一个统一的对象？
         //-------------返回给客户端调用支付接口需要的参数-----------------------
         // 返回给请求客户端处理结果
         retObj.put("resultCode", "0");
@@ -71,44 +72,29 @@ public class AliPayController extends BaseController {
         retObj.put("sign", privateKey);
         LOGGER.info("retObj:" + retObj);
         //-----------------------------------------------------------
-        return new ResponseEntity<>(retObj, HttpStatus.OK);
+        return responseOfPost(retObj);
     }
 
     @PostMapping(value="/noticeInfo", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    // TODO requestBody 映射成对象使用起来会更方便
     public void noticeInof(HttpServletRequest request) throws Exception {
         LOGGER.info("-----------支付宝异步通知---------------------");
 
-        // 返回给支付宝服务器的微信异步通知结果
+        // 返回给支付宝服务器的异步通知结果
         boolean ret = false;
 
         //获取支付宝POST过来反馈信息
-        Map<String, String> params = new HashMap<String, String>();
-//        Map requestParams = request.getParameterMap();
+        Map<String, String> params = new HashMap<>();
         Map<String, String[]> requestParams = request.getParameterMap();
         LOGGER.info("notice_msg:" + requestParams);
-        for(Map.Entry entry: requestParams.entrySet()) {
-            String name = (String) entry.getKey();
-            String[] values = (String[]) entry.getValue();
-
-//        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
-//            String name = (String) iter.next();
-//            String[] values = (String[]) requestParams.get(name);
-//            String valueStr = "";
-            StringBuilder valueStr = new StringBuilder();
-            for (int i = 0; i < values.length; i++) {
-//                valueStr = (i == values.length - 1) ? valueStr + values[i]
-//                        : valueStr + values[i] + ",";
-                valueStr.append((i == values.length - 1) ? valueStr.append(values[i])
-                        : valueStr.append(values[i]).append(","));
-            }
-            //乱码解决，这段代码在出现乱码时使用。如果mysign和sign不相等也可以使用这段代码转化
-            //valueStr = new String(valueStr.getBytes("ISO-8859-1"), "gbk");
-//            params.put(name, valueStr);
-            params.put(name, valueStr.toString());
+        for(Map.Entry<String, String[]> entry: requestParams.entrySet()) {
+            String name = entry.getKey();
+            params.put(name, StringUtil.join(entry.getValue(), ","));
         }
 
         //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以下仅供参考)//
         //商户订单号
+        // TODO 下面这三个字符集转换应该都不需要
         String outTradeNo = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"), "UTF-8");
 
         //支付宝交易号
@@ -126,6 +112,7 @@ public class AliPayController extends BaseController {
                 //如果有做过处理，不执行商户的业务程序
 
                 // 查询订单
+                // TODO 应该在 service 中写更多的逻辑，而不是在 controller 中
                 Order orderinfo = orderService.findByOrderNo(outTradeNo);
                 // 查询订单号是否已经处理过了
                 // 存在订单
@@ -182,6 +169,7 @@ public class AliPayController extends BaseController {
             }
         }
 
+        // TODO 此处的 system.out 应该没什么意义
         if(ret) {
             System.out.println("SUCCESS");
         } else {
@@ -195,6 +183,7 @@ public class AliPayController extends BaseController {
      */
     private String getOrderInfo(UnifiedOrderReq uoReq) {
 
+        // TODO 这个是随意拼接？不应该用 String
         // 签约合作者身份ID
         String orderInfo = "partner=" + "\"" + AliConstants.ALI_PAY_PARTNER_ID + "\"";
 
@@ -249,7 +238,7 @@ public class AliPayController extends BaseController {
      * @param params 通知返回来的参数数组
      * @return 验证结果
      */
-    public boolean verify(Map<String, String> params) throws Exception {
+    private boolean verify(Map<String, String> params) throws Exception {
 
         //判断responsetTxt是否为true，isSign是否为true
         //responsetTxt的结果不是true，与服务器设置问题、合作身份者ID、notify_id一分钟失效有关
@@ -281,7 +270,7 @@ public class AliPayController extends BaseController {
      * true 返回正确信息
      * false 请检查防火墙或者是服务器阻止端口问题以及验证时间是否超过一分钟
      */
-    private static String verifyResponse(String notifyId) throws IOException {
+    private String verifyResponse(String notifyId) throws IOException {
         //获取远程服务器ATN结果，验证是否是支付宝服务器发来的请求
 
         String partner = AliConstants.ALI_PAY_PARTNER_ID;
@@ -299,21 +288,8 @@ public class AliPayController extends BaseController {
      * true 返回正确信息
      * false 请检查防火墙或者是服务器阻止端口问题以及验证时间是否超过一分钟
      */
-    private static String checkUrl(String urlvalue) throws IOException {
-        String inputLine = "";
-        BufferedReader in;
-        try {
-            URL url = new URL(urlvalue);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), PEPConstants.DEFAULT_CHARSET));
-            inputLine = in.readLine();
-            in.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            inputLine = "";
-        }
-
-        return inputLine;
+    private String checkUrl(String urlvalue) throws IOException {
+        return HttpClient.get(urlvalue).getBody();
     }
 
     /**
@@ -328,12 +304,8 @@ public class AliPayController extends BaseController {
         //获取待签名字符串
         String preSignStr = createLinkString(sParaNew);
         //获得签名验证结果
-        boolean isSign = false;
-        if(AliConstants.ALI_PAY_SIGN_TYPE.equals("RSA")){
-            //isSign = rsaVerify(preSignStr, sign, AliConstants.ALI_PAY_RSA_PUBLIC, "utf-8");
-            isSign = rsa.verifySign(preSignStr, sign, AliConstants.ALI_PAY_RSA_PUBLIC);
-        }
-        return isSign;
+        return AliConstants.ALI_PAY_SIGN_TYPE.equals("RSA")
+                && rsa.verifySign(preSignStr, sign, AliConstants.ALI_PAY_RSA_PUBLIC);
     }
 
     /**
@@ -341,9 +313,9 @@ public class AliPayController extends BaseController {
      * @param sArray 签名参数组
      * @return 去掉空值与签名参数后的新签名参数组
      */
-    public static Map<String, String> paraFilter(Map<String, String> sArray) {
+    public Map<String, String> paraFilter(Map<String, String> sArray) {
 
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
 
         if (sArray == null || sArray.size() <= 0) {
             return result;
@@ -359,25 +331,6 @@ public class AliPayController extends BaseController {
             result.put(key, value);
         }
 
-//        for(Iterator iter = sArray.keySet().iterator(); iter.hasNext();) {
-//            String name = (String) iter.next();
-//            String value = sArray.get(name);
-//            if (value == null || value.equals("") || name.equalsIgnoreCase("sign")
-//                    || name.equalsIgnoreCase("sign_type")) {
-//                continue;
-//            }
-//            result.put(name, value);
-//        }
-
-//        for (String key : sArray.keySet()) {
-//            String value = sArray.get(key);
-//            if (value == null || value.equals("") || key.equalsIgnoreCase("sign")
-//                    || key.equalsIgnoreCase("sign_type")) {
-//                continue;
-//            }
-//            result.put(key, value);
-//        }
-
         return result;
     }
 
@@ -386,12 +339,11 @@ public class AliPayController extends BaseController {
      * @param params 需要排序并参与字符拼接的参数组
      * @return 拼接后字符串
      */
-    public static String createLinkString(Map<String, String> params) {
+    private String createLinkString(Map<String, String> params) {
 
-        List<String> keys = new ArrayList<String>(params.keySet());
+        List<String> keys = new ArrayList<>(params.keySet());
         Collections.sort(keys);
 
-//        String prestr = "";
         StringBuilder prestr = new StringBuilder();
 
         for (int i = 0; i < keys.size(); i++) {
@@ -399,14 +351,10 @@ public class AliPayController extends BaseController {
             String value = params.get(key);
 
             if (i == keys.size() - 1) {//拼接时，不包括最后一个&字符
-//                prestr = prestr + key + "=" + value;
-                prestr.append(prestr);
                 prestr.append(key);
                 prestr.append("=");
                 prestr.append(value);
             } else {
-//                prestr = prestr + key + "=" + value + "&";
-                prestr.append(prestr);
                 prestr.append(key);
                 prestr.append("=");
                 prestr.append(value);
@@ -414,7 +362,6 @@ public class AliPayController extends BaseController {
             }
         }
 
-//        return prestr;
         return prestr.toString();
     }
 
@@ -428,11 +375,9 @@ public class AliPayController extends BaseController {
     private AliEntity getAliNoticeInfo(Map<String, String> params) throws Exception {
         //支付宝支付信息Bean
         AliEntity alipayinfo = new AliEntity();
-        //设置日期格式
-        SimpleDateFormat sdf = new SimpleDateFormat(AliConstants.STRING_FORMAT_YYYYMMDD_HHMMSS);
         //通知时间
-        if(!stringIsEmpty(params.get("notify_time"))) {
-            alipayinfo.setNotifyTime(sdf.parse(params.get("notify_time")));
+        if(StringUtil.isNotNull(params.get("notify_time"))) {
+            alipayinfo.setNotifyTime(DateUtil.toDate(params.get("notify_time")));
         }
 
         LOGGER.info("[notify_time] = [" + params.get("notify_time") + "]");
@@ -462,7 +407,7 @@ public class AliPayController extends BaseController {
         LOGGER.info("[trade_no] = [" + params.get("trade_no") + "]");
         //交易状态
         //0 : 未知
-        if(stringIsEmpty(params.get("trade_status"))) {
+        if(StringUtil.isNull(params.get("trade_status"))) {
             alipayinfo.setTradeStatus(AliConstants.ALI_PAY_NOTICE_TARDESTATUS_UNKONWN);
         } else {
             alipayinfo.setTradeStatus(params.get("trade_status"));
@@ -481,21 +426,21 @@ public class AliPayController extends BaseController {
         alipayinfo.setBuyerEmail(params.get("buyer_email"));
         LOGGER.info("[buyer_email] = [" + params.get("buyer_email") + "]");
         //交易金额
-        if(stringIsEmpty(params.get("total_fee"))) {
+        if(StringUtil.isNull(params.get("total_fee"))) {
             alipayinfo.setTotalFee("0");
         } else {
             alipayinfo.setTotalFee(params.get("total_fee"));
         }
         LOGGER.info("[total_fee] = [" + params.get("total_fee") + "]");
         //购买数量
-        if(stringIsEmpty(params.get("quantity"))) {
+        if(StringUtil.isNull(params.get("quantity"))) {
             alipayinfo.setQuantity("1");
         } else {
             alipayinfo.setQuantity(params.get("quantity"));
         }
         LOGGER.info("[quantity] = [" + params.get("quantity") + "]");
         //商品单价
-        if(stringIsEmpty(params.get("price"))) {
+        if(StringUtil.isNull(params.get("price"))) {
             alipayinfo.setPrice("0");
         } else {
             alipayinfo.setPrice(params.get("price"));
@@ -505,13 +450,13 @@ public class AliPayController extends BaseController {
         alipayinfo.setBody(params.get("body"));
         LOGGER.info("[body] = [" + params.get("body") + "]");
         //交易创建时间
-        if(!stringIsEmpty(params.get("gmt_create"))) {
-            alipayinfo.setGmtCreate(sdf.parse(params.get("gmt_create")));
+        if(StringUtil.isNotNull(params.get("gmt_create"))) {
+            alipayinfo.setGmtCreate(DateUtil.toDate(params.get("gmt_create")));
         }
         LOGGER.info("[gmt_create] = [" + params.get("gmt_create") + "]");
         //交易付款时间
-        if(!stringIsEmpty(params.get("gmt_payment"))) {
-            alipayinfo.setGmtPayment(sdf.parse(params.get("gmt_payment")));
+        if(StringUtil.isNotNull(params.get("gmt_payment"))) {
+            alipayinfo.setGmtPayment(DateUtil.toDate(params.get("gmt_payment")));
         }
         LOGGER.info("[gmt_payment] = [" + params.get("gmt_payment") + "]");
         //是否调整总价
@@ -525,31 +470,21 @@ public class AliPayController extends BaseController {
         LOGGER.info("[discount] = [" + params.get("discount") + "]");
         //退款状态
         //0 : 未知
-        if(stringIsEmpty(params.get("refund_status"))) {
+        if(StringUtil.isNull(params.get("refund_status"))) {
             alipayinfo.setRefundStatus(AliConstants.APP_ALIPAY_REFUND_STATUS_UNKNOWN_VALUE);
         } else {
             alipayinfo.setRefundStatus(params.get("refund_status"));
         }
         LOGGER.info("[refund_status] = [" + params.get("refund_status") + "]");
         //退款时间
-        if(!stringIsEmpty(params.get("gmt_refund"))) {
-            alipayinfo.setGmtRefund(sdf.parse(params.get("gmt_refund")));
+        if(StringUtil.isNotNull(params.get("gmt_refund"))) {
+            alipayinfo.setGmtRefund(DateUtil.toDate(params.get("gmt_refund")));
         }
         LOGGER.info("[gmt_refund] = [" + params.get("gmt_refund") + "]");
         // 逻辑删除 0:正常
         alipayinfo.setIsdel(0);
 
         return alipayinfo;
-    }
-
-    /**
-     * 判断字符串是否为空
-     *
-     * @param checkValue
-     * @return
-     */
-    public static boolean stringIsEmpty(String checkValue) {
-        return checkValue == null || "".equals(checkValue) || checkValue.length() == 0;
     }
 
 }

@@ -22,8 +22,6 @@ public class AliConstants {
     public final static String ALI_PAY_NOTICE_HTTPS_VERIFY_URL = ConfCenter.get("isj.pay.ali.httpsVerifyUrl");
     // 支付宝签名方式
     public final static String ALI_PAY_SIGN_TYPE = ConfCenter.get("isj.pay.ali.signType");
-    // 日期格式
-    public final static String STRING_FORMAT_YYYYMMDD_HHMMSS = "yyyy-MM-dd HH:mm:ss";
 
     // 订单支付成功
     public final static String ALI_PAY_RESULT_SUCCESS = "9000";
