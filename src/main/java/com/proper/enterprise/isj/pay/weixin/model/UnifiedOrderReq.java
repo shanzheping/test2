@@ -1,6 +1,6 @@
 package com.proper.enterprise.isj.pay.weixin.model;
 
-import com.proper.enterprise.isj.pay.weixin.WeixinConstants;
+import com.proper.enterprise.isj.pay.weixin.constants.WeixinConstants;
 import com.proper.enterprise.isj.pay.weixin.adapter.SignAdapter;
 import com.proper.enterprise.isj.pay.weixin.adapter.TimestampAdapter;
 import com.proper.enterprise.platform.core.utils.ConfCenter;
@@ -12,64 +12,121 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Date;
 
+/**
+ * 微信移动支付请求预支付ID_XML_Model
+ */
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UnifiedOrderReq {
 
+    /**
+     * 应用ID 必填
+     */
     @XmlElement(name = "appid")
-    private String appid = WeixinConstants.APPID;
+    private String appid = WeixinConstants.WEIXIN_PAY_APPID;
 
+    /**
+     * 商户号 必填
+     */
     @XmlElement(name = "mch_id")
-    private String mchId = WeixinConstants.MCH_ID;
+    private String mchId = WeixinConstants.WEIXIN_PAY_MCH_ID;
 
+    /**
+     * 设备号
+     */
     @XmlElement(name = "device_info")
     private String deviceInfo = "WEB";
 
+    /**
+     * 随机字符串 必填
+     */
     @XmlElement(name = "nonce_str")
     private String nonceStr;
 
+    /**
+     * 签名
+     */
     @XmlElement(name = "sign")
     @XmlJavaTypeAdapter(SignAdapter.class)
     private UnifiedOrderReq sign = this;
 
+    /**
+     * 商品描述 必填
+     */
     @XmlElement(name = "body")
     private String body;
 
+    /**
+     * 商品详情
+     */
     @XmlElement(name = "detail")
     private String detail;
 
+    /**
+     * 附加数据
+     */
     @XmlElement(name = "attach")
     private String attach;
 
+    /**
+     * 商户订单号 必填
+     */
     @XmlElement(name = "out_trade_no")
     private String outTradeNo;
 
+    /**
+     * 货币类型
+     */
     @XmlElement(name = "fee_type")
     private String feeType = "CNY";
 
+    /**
+     * 总金额 必填
+     */
     @XmlElement(name = "total_fee")
     private int totalFee;
 
+    /**
+     * 终端IP 必填
+     */
     @XmlElement(name = "spbill_create_ip")
     private String spbillCreateIp;
 
+    /**
+     * 交易起始时间
+     */
     @XmlElement(name = "time_start")
     @XmlJavaTypeAdapter(TimestampAdapter.class)
     private Date timeStart;
 
+    /**
+     * 交易结束时间
+     */
     @XmlElement(name = "time_expire")
     @XmlJavaTypeAdapter(TimestampAdapter.class)
     private Date timeExpire;
 
+    /**
+     * 商品标记
+     */
     @XmlElement(name = "goods_tag")
     private String goodsTag;
 
+    /**
+     * 通知地址 必填
+     */
     @XmlElement(name = "notify_url")
     private String notifyUrl = ConfCenter.get("isj.pay.wx.url.notify");
 
+    /**
+     * 交易类型 必填
+     */
     @XmlElement(name = "trade_type")
     private String tradeType = "APP";
 
+    /**
+     * 指定支付方式
+     */
     @XmlElement(name = "limit_pay")
     private String limitPay;
 

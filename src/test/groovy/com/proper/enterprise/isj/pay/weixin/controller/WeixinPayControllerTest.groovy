@@ -1,4 +1,4 @@
-package com.proper.enterprise.isj.pay.weixin
+package com.proper.enterprise.isj.pay.weixin.controller
 
 import com.proper.enterprise.platform.test.AbstractTest
 import org.junit.Test
@@ -8,7 +8,7 @@ class WeixinPayControllerTest extends AbstractTest {
 
     @Test
     public void prepay() {
-        post('/pay/weixin/prepayInfo', '{"body": "测试", "totalFee": 1}', HttpStatus.OK)
+        post('/pay/weixin/prepayInfo', '{"outTradeNo":"hOpTChleZacRtNEpFVQEErZTlyNzwZyU","body": "测试", "totalFee": 1}', HttpStatus.OK)
     }
 
 }
