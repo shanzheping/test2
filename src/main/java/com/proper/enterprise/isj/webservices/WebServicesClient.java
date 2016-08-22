@@ -4,13 +4,14 @@ import com.proper.enterprise.isj.webservices.model.req.OrderRegReq;
 import com.proper.enterprise.isj.webservices.model.req.ReqModel;
 import com.proper.enterprise.isj.webservices.model.res.*;
 import com.proper.enterprise.isj.webservices.service.RegSJService;
-import com.proper.enterprise.platform.core.utils.CipherUtil;
 import com.proper.enterprise.platform.core.utils.ConfCenter;
 import com.proper.enterprise.platform.core.utils.DateUtil;
 import com.proper.enterprise.platform.core.utils.MD5Util;
+import com.proper.enterprise.platform.core.utils.cipher.AES;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,9 @@ public class WebServicesClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebServicesClient.class);
 
     @Autowired WebApplicationContext wac;
-    @Autowired CipherUtil aes;
+    @Autowired
+    @Qualifier("hisAES")
+    AES aes;
     @Autowired RegSJService regSJService;
     @Autowired Marshaller marshaller;
     @Autowired Unmarshaller unmarshaller;
@@ -59,7 +62,7 @@ public class WebServicesClient {
     private String invokeWS(String methodName, Map<String, String> param) throws Exception {
         Method method = RegSJService.class.getDeclaredMethod(methodName, String.class);
         return (String) method.invoke(regSJService,
-                envelopReq(ConfCenter.get("isj.funCode." + methodName), param));
+                envelopReq(ConfCenter.get("isj.his.funCode." + methodName), param));
     }
 
     protected String envelopReq(String funCode, Map<String, String> map) throws IOException {
@@ -67,7 +70,7 @@ public class WebServicesClient {
         Writer writer = new StringWriter();
         ReqModel m = new ReqModel();
         m.setFunCode(funCode);
-        m.setUserId(ConfCenter.get("isj.userId"));
+        m.setUserId(ConfCenter.get("isj.his.userId"));
         m.setReq(map);
         marshaller.marshal(m, new StreamResult(writer));
 
@@ -97,11 +100,11 @@ public class WebServicesClient {
         Assert.notNull(resModel.getSign());
 
         String sign = MessageFormat.format(
-                ConfCenter.get("isj.template.sign.res"),
+                ConfCenter.get("isj.his.template.sign.res"),
                 resModel.getResEncrypted(),
                 resModel.getReturnCode().getCode(),
                 resModel.getReturnMsg(),
-                ConfCenter.get("isj.key"));
+                ConfCenter.get("isj.his.aes.key"));
 
         return resModel.getSign().equalsIgnoreCase(MD5Util.md5Hex(sign));
     }

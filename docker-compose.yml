@@ -1,0 +1,4 @@
+isj:
+  image: propersoft/isj
+  ports:
+    - "8899:9090"

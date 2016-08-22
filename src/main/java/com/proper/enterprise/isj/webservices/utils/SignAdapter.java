@@ -21,11 +21,11 @@ public class SignAdapter extends XmlAdapter<String, ReqModel> {
 
     @Override
     public String marshal(ReqModel v) throws Exception {
-        String sign = MessageFormat.format(ConfCenter.get("isj.template.sign.req"),
+        String sign = MessageFormat.format(ConfCenter.get("isj.his.template.sign.req"),
                 v.getFunCode(),
                 new ReqEncryptedAdapter().marshal(v.getReq(), false),
                 v.getUserId(),
-                ConfCenter.get("isj.key"));
+                ConfCenter.get("isj.his.aes.key"));
 
         LOGGER.debug("Sign before MD5: {}",
                 StringUtil.abbreviate(sign,
