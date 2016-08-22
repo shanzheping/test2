@@ -1305,16 +1305,16 @@
   </wsdl:binding>
   <wsdl:service name="RegSjWebService">
     <wsdl:port name="RegSjWebServiceSoap" binding="tns:RegSjWebServiceSoap">
-      <soap:address location="http://localhost:8080/wsdl" />
+      <soap:address location="http://localhost:8080/his/neusoft" />
     </wsdl:port>
     <wsdl:port name="RegSjWebServiceSoap12" binding="tns:RegSjWebServiceSoap12">
-      <soap12:address location="http://localhost:8080/wsdl" />
+      <soap12:address location="http://localhost:8080/his/neusoft" />
     </wsdl:port>
     <wsdl:port name="RegSjWebServiceHttpGet" binding="tns:RegSjWebServiceHttpGet">
-      <http:address location="http://localhost:8080/wsdl" />
+      <http:address location="http://localhost:8080/his/neusoft" />
     </wsdl:port>
     <wsdl:port name="RegSjWebServiceHttpPost" binding="tns:RegSjWebServiceHttpPost">
-      <http:address location="http://localhost:8080/wsdl" />
+      <http:address location="http://localhost:8080/his/neusoft" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
