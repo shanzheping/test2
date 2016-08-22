@@ -114,11 +114,11 @@ class WebServicesClientTest extends AbstractTest {
         println "RES_ENCRYPTED: ${resEncrypted}"
 
         String sign = MessageFormat.format(
-                ConfCenter.get("isj.template.sign.res"),
+                ConfCenter.get("isj.his.template.sign.res"),
                 resEncrypted,
                 '0',
                 '交易成功',
-                ConfCenter.get("isj.key"));
+                ConfCenter.get("isj.his.aes.key"));
         assert StringUtil.isNotNull(sign);
         println "SIGN: ${MD5Util.md5Hex(sign).toUpperCase()}"
     }

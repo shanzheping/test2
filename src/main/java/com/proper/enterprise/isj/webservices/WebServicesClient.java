@@ -62,7 +62,7 @@ public class WebServicesClient {
     private String invokeWS(String methodName, Map<String, String> param) throws Exception {
         Method method = RegSJService.class.getDeclaredMethod(methodName, String.class);
         return (String) method.invoke(regSJService,
-                envelopReq(ConfCenter.get("isj.funCode." + methodName), param));
+                envelopReq(ConfCenter.get("isj.his.funCode." + methodName), param));
     }
 
     protected String envelopReq(String funCode, Map<String, String> map) throws IOException {
@@ -70,7 +70,7 @@ public class WebServicesClient {
         Writer writer = new StringWriter();
         ReqModel m = new ReqModel();
         m.setFunCode(funCode);
-        m.setUserId(ConfCenter.get("isj.userId"));
+        m.setUserId(ConfCenter.get("isj.his.userId"));
         m.setReq(map);
         marshaller.marshal(m, new StreamResult(writer));
 
@@ -100,11 +100,11 @@ public class WebServicesClient {
         Assert.notNull(resModel.getSign());
 
         String sign = MessageFormat.format(
-                ConfCenter.get("isj.template.sign.res"),
+                ConfCenter.get("isj.his.template.sign.res"),
                 resModel.getResEncrypted(),
                 resModel.getReturnCode().getCode(),
                 resModel.getReturnMsg(),
-                ConfCenter.get("isj.key"));
+                ConfCenter.get("isj.his.aes.key"));
 
         return resModel.getSign().equalsIgnoreCase(MD5Util.md5Hex(sign));
     }

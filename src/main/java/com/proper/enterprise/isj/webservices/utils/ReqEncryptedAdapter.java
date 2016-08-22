@@ -12,9 +12,9 @@ public class ReqEncryptedAdapter extends XmlAdapter<String, Map<String, String>>
 
     static {
         AES = new com.proper.enterprise.platform.core.utils.cipher.AES(
-                ConfCenter.get("isj.mode"),
-                ConfCenter.get("isj.padding"),
-                ConfCenter.get("isj.key"));
+                ConfCenter.get("isj.his.aes.mode"),
+                ConfCenter.get("isj.his.aes.padding"),
+                ConfCenter.get("isj.his.aes.key"));
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ReqEncryptedAdapter extends XmlAdapter<String, Map<String, String>>
     public String marshal(Map<String, String> v, boolean needCDATA) throws Exception {
         StringBuilder sb = new StringBuilder("<REQ>");
         for(Map.Entry<String, String> entry : v.entrySet()) {
-            sb.append(MessageFormat.format(ConfCenter.get("isj.template.req"), entry.getKey(), entry.getValue()));
+            sb.append(MessageFormat.format(ConfCenter.get("isj.his.template.req"), entry.getKey(), entry.getValue()));
         }
         sb.append("</REQ>");
         String result = AES.encrypt(sb.toString());
