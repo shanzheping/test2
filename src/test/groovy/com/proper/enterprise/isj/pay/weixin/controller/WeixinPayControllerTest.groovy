@@ -1,4 +1,4 @@
-package com.proper.enterprise.isj.pay.weixin
+package com.proper.enterprise.isj.pay.weixin.controller
 
 import com.proper.enterprise.platform.test.AbstractTest
 import org.junit.Test

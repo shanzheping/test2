@@ -1,6 +1,6 @@
 package com.proper.enterprise.isj.pay.weixin.adapter;
 
-import com.proper.enterprise.isj.pay.weixin.WeixinConstants;
+import com.proper.enterprise.isj.pay.weixin.constants.WeixinConstants;
 import com.proper.enterprise.platform.core.utils.DateUtil;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;

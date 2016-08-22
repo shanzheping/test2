@@ -1,4 +1,4 @@
-package com.proper.enterprise.isj.pay.weixin;
+package com.proper.enterprise.isj.pay.weixin.constants;
 
 import com.proper.enterprise.platform.core.utils.ConfCenter;
 
@@ -7,13 +7,12 @@ public class WeixinConstants {
     /**
      * 服务号相关信息
      */
-    public final static String APPID = ConfCenter.get("isj.pay.wx.appId"); //服务号的应用号
-    public final static String APP_SECRECT = ""; //服务号的应用密码
-    public final static String TOKEN = "weixinCourse"; //服务号的配置token
-    public final static String MCH_ID = ConfCenter.get("isj.pay.wx.mchId"); //商户号
-    public final static String API_KEY = ConfCenter.get("isj.pay.wx.apiKey"); //API密钥
-    public final static String SIGN_TYPE = "MD5"; //签名加密方式
-    public final static String CERT_PATH = "D:/apiclient_cert.p12"; //微信支付证书存放路径地址
+    public final static String WEIXIN_PAY_APPID = ConfCenter.get("isj.pay.wx.appId"); //服务号的应用号
+    public final static String WEIXIN_PAY_APP_SECRECT = ""; //服务号的应用密码
+    public final static String WEIXIN_PAY_TOKEN = "weixinCourse"; //服务号的配置token
+    public final static String WEIXIN_PAY_MCH_ID = ConfCenter.get("isj.pay.wx.mchId"); //商户号
+    public final static String WEIXIN_PAY_API_KEY = ConfCenter.get("isj.pay.wx.apiKey"); //API密钥
+    public final static String WEIXIN_PAY_SIGN_TYPE = "MD5"; //签名加密方式
     //微信支付统一接口的回调action
     public final static String NOTIFY_URL = "http://14.117.25.80:8016/wxweb/config/pay!paySuccess.action";
     //微信支付成功支付后跳转的地址
