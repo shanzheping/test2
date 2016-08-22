@@ -1,6 +1,6 @@
 package com.proper.enterprise.isj.pay.weixin.adapter;
 
-import com.proper.enterprise.isj.pay.weixin.WeixinConstants;
+import com.proper.enterprise.isj.pay.weixin.constants.WeixinConstants;
 import com.proper.enterprise.isj.pay.weixin.model.UnifiedOrderReq;
 import com.proper.enterprise.platform.core.utils.ConfCenter;
 import com.proper.enterprise.platform.core.utils.MD5Util;
@@ -24,7 +24,11 @@ public class SignAdapter extends XmlAdapter<String, UnifiedOrderReq> {
 
     @Override
     public String marshal(UnifiedOrderReq v) throws Exception {
-        Field[] fields = UnifiedOrderReq.class.getDeclaredFields();
+        return marshalObject(v, UnifiedOrderReq.class);
+    }
+
+    public <T> String marshalObject(T t, Class<T> clz) throws Exception {
+        Field[] fields = clz.getDeclaredFields();
         Set<String> set = new TreeSet<>();
         for (Field field : fields) {
             if (!field.getName().equals("sign") && !field.getName().startsWith("$")) {
@@ -35,12 +39,12 @@ public class SignAdapter extends XmlAdapter<String, UnifiedOrderReq> {
         StringBuilder sb = new StringBuilder();
         Object value;
         for (String fieldName : set) {
-            value = UnifiedOrderReq.class.getMethod("get" + StringUtil.capitalize(fieldName)).invoke(v);
+            value = clz.getMethod("get" + StringUtil.capitalize(fieldName)).invoke(t);
             if (value != null) {
                 sb.append(StringUtil.camelToSnake(fieldName)).append("=").append(value).append("&");
             }
         }
-        sb.append("key=" + WeixinConstants.API_KEY);
+        sb.append("key=" + WeixinConstants.WEIXIN_PAY_API_KEY);
 
         String sign = sb.toString();
         LOGGER.debug("Sign before MD5: {}",

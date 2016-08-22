@@ -42,6 +42,10 @@
         <constructor-arg name="key" value="${isj.his.aes.key}" />
     </bean>
 
+    <bean id="aliRSA" class="com.proper.enterprise.platform.core.utils.cipher.RSA">
+        <constructor-arg name="signAlgorithm" value="${isj.pay.ali.signAlgo}" />
+    </bean>
+
     <beans profile="dev">
         <context:property-placeholder ignore-unresolvable="true"
                                       location="classpath:conf/isj/isj-ws-proxy.properties" />
