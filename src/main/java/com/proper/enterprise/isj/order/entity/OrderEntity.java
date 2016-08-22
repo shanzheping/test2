@@ -10,9 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ISJ_WEIXIN_ORDERINFO")
-//@DiscriminatorColumn(name = "pepDtype")
-//@DiscriminatorValue("WeixinEntity")
+@Table(name = "ISJ_ORDERINFO")
 @CacheEntity
 public class OrderEntity extends BaseEntity implements Order {
 

@@ -10,9 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 支付宝ServiceImpl
  */
@@ -27,15 +24,6 @@ public class AliServiceImpl implements AliService{
     @Override
     public Ali save(Ali ali) {
         return aliRepo.save((AliEntity) ali);
-    }
-
-    @Override
-    public void save(Ali... alis) {
-        List<AliEntity> entities = new ArrayList<AliEntity>();
-        for(Ali ali: alis) {
-            entities.add((AliEntity) ali);
-        }
-        aliRepo.save((AliEntity) entities);
     }
 
     @Override

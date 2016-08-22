@@ -18,7 +18,7 @@ public class AliEntity extends BaseEntity implements Ali {
     public AliEntity() { }
 
     public AliEntity(Date notifyTime, String notifyType, String notifyId, String signType, String sign, String outTradeNo, String subject, String paymentType, String tradeNo, String tradeStatus, String sellerId, String sellerEmail, String buyerId, String buyerEmail, String totalFee, String quantity, String price, String body, Date gmtCreate, Date gmtPayment, String isTotalFeeAdjust, String useCoupon, String discount, String refundStatus, Date gmtRefund, int isdel) {
-        this.notifyTime = notifyTime;
+        this.notifyTime = (Date)notifyTime.clone();
         this.notifyType = notifyType;
         this.notifyId = notifyId;
         this.signType = signType;
@@ -36,13 +36,13 @@ public class AliEntity extends BaseEntity implements Ali {
         this.quantity = quantity;
         this.price = price;
         this.body = body;
-        this.gmtCreate = gmtCreate;
-        this.gmtPayment = gmtPayment;
+        this.gmtCreate = (Date)gmtCreate.clone();
+        this.gmtPayment = (Date)gmtPayment.clone();
         this.isTotalFeeAdjust = isTotalFeeAdjust;
         this.useCoupon = useCoupon;
         this.discount = discount;
         this.refundStatus = refundStatus;
-        this.gmtRefund = gmtRefund;
+        this.gmtRefund = (Date)gmtRefund.clone();
         this.isdel = isdel;
     }
 
@@ -190,11 +190,11 @@ public class AliEntity extends BaseEntity implements Ali {
     private int isdel;
 
     public Date getNotifyTime() {
-        return notifyTime;
+        return (Date)notifyTime.clone();
     }
 
     public void setNotifyTime(Date notifyTime) {
-        this.notifyTime = notifyTime;
+        this.notifyTime = (Date)notifyTime.clone();
     }
 
     public String getNotifyType() {
@@ -334,19 +334,19 @@ public class AliEntity extends BaseEntity implements Ali {
     }
 
     public Date getGmtCreate() {
-        return gmtCreate;
+        return (Date)gmtCreate.clone();
     }
 
     public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
+        this.gmtCreate = (Date)gmtCreate.clone();
     }
 
     public Date getGmtPayment() {
-        return gmtPayment;
+        return (Date)gmtPayment.clone();
     }
 
     public void setGmtPayment(Date gmtPayment) {
-        this.gmtPayment = gmtPayment;
+        this.gmtPayment = (Date)gmtPayment.clone();
     }
 
     public String getIsTotalFeeAdjust() {
@@ -382,11 +382,11 @@ public class AliEntity extends BaseEntity implements Ali {
     }
 
     public Date getGmtRefund() {
-        return gmtRefund;
+        return (Date)gmtRefund.clone();
     }
 
     public void setGmtRefund(Date gmtRefund) {
-        this.gmtRefund = gmtRefund;
+        this.gmtRefund = (Date)gmtRefund.clone();
     }
 
     public int getIsdel() {

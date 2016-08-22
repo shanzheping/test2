@@ -135,7 +135,8 @@ public class WeixinPayController extends BaseController {
         LOGGER.info("-------------微信异步通知---------------");
         outSteam.close();
         inStream.close();
-        String result  = new String(outSteam.toByteArray(),"utf-8");//获取微信调用我们notify_url的返回信息
+        // 获取微信调用我们notify_url的返回信息
+        String result  = new String(outSteam.toByteArray(), "utf-8");
 
         // 返回给微信服务器的微信异步通知结果
         boolean ret = false;
@@ -187,7 +188,7 @@ public class WeixinPayController extends BaseController {
         StringWriter writer = new StringWriter();
         marshaller.marshal(responseWeixin, new StreamResult(writer));
         String requestXML = writer.toString();
-        return new ResponseEntity<>(requestXML, HttpStatus.OK);//TODO 待确认
+        return new ResponseEntity<>(requestXML, HttpStatus.OK); //TODO 待确认
     }
 
     /**

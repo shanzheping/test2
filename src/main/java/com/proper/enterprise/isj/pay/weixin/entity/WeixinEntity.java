@@ -5,16 +5,13 @@ import com.proper.enterprise.platform.core.annotation.CacheEntity;
 import com.proper.enterprise.platform.core.entity.BaseEntity;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "ISJ_WEIXIN_PAYINFO")
-//@DiscriminatorColumn(name = "pepDtype")
-//@DiscriminatorValue("WeixinEntity")
 @CacheEntity
 public class WeixinEntity extends BaseEntity implements Weixin {
 
-    public WeixinEntity () { }
+    public WeixinEntity() { }
 
     public WeixinEntity(String returnCode, String returnMsg, String appid, String mchId, String deviceInfo, String nonceStr, String sign, String resultCode, String errCode, String errCodeDes, String openid, String isSubscribe, String tradeType, String bankType, int totalFee, String feeType, int cashFee, String cashFeeType, int couponFee, int couponCount, String transactionId, String outTradeNo, String attach, String timeEnd, int isdel) {
         this.returnCode = returnCode;

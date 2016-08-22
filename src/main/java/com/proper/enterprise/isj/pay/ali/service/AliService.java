@@ -10,8 +10,6 @@ public interface AliService {
 
     Ali save(Ali ali);
 
-    void save(Ali... ali);
-
     Ali findByOutTradeNo(String outTradeNo);
 
 }

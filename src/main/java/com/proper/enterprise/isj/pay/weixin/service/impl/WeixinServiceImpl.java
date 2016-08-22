@@ -9,9 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 public class WeixinServiceImpl implements WeixinService {
 
@@ -23,15 +20,6 @@ public class WeixinServiceImpl implements WeixinService {
     @Override
     public Weixin save(Weixin weixin){
         return weixinRepo.save((WeixinEntity) weixin);
-    }
-
-    @Override
-    public void save(Weixin... weixins){
-        List<WeixinEntity> entities = new ArrayList<WeixinEntity>();
-        for(Weixin weixin : weixins) {
-            entities.add((WeixinEntity) weixin);
-        }
-        weixinRepo.save(entities);
     }
 
     @Override

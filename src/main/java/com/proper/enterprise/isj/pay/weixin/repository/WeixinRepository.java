@@ -5,9 +5,6 @@ import com.proper.enterprise.isj.pay.weixin.entity.WeixinEntity;
 import com.proper.enterprise.platform.core.annotation.CacheQuery;
 import com.proper.enterprise.platform.core.repository.BaseRepository;
 
-import java.util.List;
-
-
 /**
  * 微信Repository
  */

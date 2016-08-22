@@ -10,9 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -24,15 +21,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order save(Order order){
         return orderRepo.save((OrderEntity) order);
-    }
-
-    @Override
-    public void save(Order... orders){
-        List<OrderEntity> entities = new ArrayList<OrderEntity>();
-        for(Order order : orders) {
-            entities.add((OrderEntity) order);
-        }
-        orderRepo.save(entities);
     }
 
     @Override

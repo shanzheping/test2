@@ -2,8 +2,6 @@ package com.proper.enterprise.isj.pay.weixin.model;
 
 import com.proper.enterprise.platform.core.api.IBase;
 
-import java.util.Date;
-
 /**
  * 微信异步通知
  *

@@ -10,8 +10,6 @@ public interface WeixinService {
 
     Weixin save(Weixin weixin);
 
-    void save(Weixin... weixin);
-
     Weixin findByOutTradeNo(String outTradeNo);
 
 }
