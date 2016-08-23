@@ -78,9 +78,11 @@ uploadArchives {
 dependencies {
     compile libraries.slf4j_api,
             libraries.spring_data_jpa,
-            libraries.spring_webmvc
+            libraries.spring_webmvc,
+            libraries.spring_data_mongodb
 
-    compile libraries.pep_core
+    compile libraries.pep_core,
+            libraries.pep_auth_jwt
 
     runtime libraries.commons_fileupload,
             libraries.h2,
