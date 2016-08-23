@@ -54,7 +54,7 @@ public class AliPayController extends BaseController {
         String privateKey = AliConstants.ALI_PAY_RSA_PRIVATE;
         // 对订单信息进行签名
         String sign = rsa.sign(orderInfo, privateKey);
-        // TODO 是否有必要做 URL encode?
+        // TODO 是否有必要做 URL encode? -> 需要做URLEncoder处理 此处保留
         sign = URLEncoder.encode(sign, PEPConstants.DEFAULT_CHARSET.name());
         // 完整的符合支付宝参数规范的订单信息
         final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + "sign_type=\"RSA\"";
@@ -65,7 +65,7 @@ public class AliPayController extends BaseController {
         // 返回给请求客户端处理结果
         retObj.put("resultCode", "0");
         // 返回给请求客户端处理结果消息
-        retObj.put("resultMessage", "SUCCESS");
+        retObj.put("resultMsg", "SUCCESS");
         // payInfo
         retObj.put("pay_info", payInfo);
         // 秘钥
@@ -75,8 +75,8 @@ public class AliPayController extends BaseController {
         return responseOfPost(retObj);
     }
 
-    @PostMapping(value="/noticeInfo", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    // TODO requestBody 映射成对象使用起来会更方便
+    @PostMapping(value="/noticeInfo")
+    // TODO requestBody 映射成对象使用起来会更方便 -> 是通过requestPOST过来的数据,不能使用映射对象
     public void noticeInof(HttpServletRequest request) throws Exception {
         LOGGER.info("-----------支付宝异步通知---------------------");
 
@@ -94,14 +94,14 @@ public class AliPayController extends BaseController {
 
         //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以下仅供参考)//
         //商户订单号
-        // TODO 下面这三个字符集转换应该都不需要
-        String outTradeNo = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"), "UTF-8");
+        // TODO 下面这三个字符集转换应该都不需要 -> 已修正
+        String outTradeNo = request.getParameter("out_trade_no");
 
         //支付宝交易号
         // String tradeNo = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"), "UTF-8");
 
         //交易状态
-        String tradeStatus = new String(request.getParameter("trade_status").getBytes("ISO-8859-1"), "UTF-8");
+        String tradeStatus = request.getParameter("trade_status");
 
         //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以上仅供参考)//
         if(verify(params)) {//验证成功
@@ -169,7 +169,7 @@ public class AliPayController extends BaseController {
             }
         }
 
-        // TODO 此处的 system.out 应该没什么意义
+        // TODO 此处的 system.out 应该没什么意义 -> 有待确认
         if(ret) {
             System.out.println("SUCCESS");
         } else {
@@ -248,12 +248,13 @@ public class AliPayController extends BaseController {
             String notifyId = params.get("notify_id");
             responseTxt = verifyResponse(notifyId);
         }
+        LOGGER.info("验证是否为支付宝发出的数据。验证结果:" + responseTxt);
         String sign = "";
         if(params.get("sign") != null) {
             sign = params.get("sign");
         }
         boolean isSign = getSignVeryfy(params, sign);
-
+        LOGGER.info("验证签名是否正确,验证结果:" + isSign);
         //写日志记录（若要调试，请取消下面两行注释）
         //String sWord = "responseTxt=" + responseTxt + "\n isSign=" + isSign + "\n 返回回来的参数：" + AlipayCore.createLinkString(params);
         //AlipayCore.logResult(sWord);
@@ -303,6 +304,8 @@ public class AliPayController extends BaseController {
         Map<String, String> sParaNew = paraFilter(params);
         //获取待签名字符串
         String preSignStr = createLinkString(sParaNew);
+        LOGGER.info("异步通知待签名的字符串:" + preSignStr);
+        LOGGER.info("异步通知的签名:" + sign);
         //获得签名验证结果
         return AliConstants.ALI_PAY_SIGN_TYPE.equals("RSA")
                 && rsa.verifySign(preSignStr, sign, AliConstants.ALI_PAY_RSA_PUBLIC);
