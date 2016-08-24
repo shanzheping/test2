@@ -1,9 +1,39 @@
 package com.proper.enterprise.isj.user.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by think on 2016/8/22 0022. 随机生成验证码
  */
 public class VerificationCodeUtils {
+
+	private final static Map<String, String> VERIFICATIONCODE_MAP = new HashMap<String, String>();
+
+	public static Map<String, String> getVerificationcodeMap() {
+		return VERIFICATIONCODE_MAP;
+	}
+
+	/**
+	 * 验证码位数
+	 */
+	private final static int VERIFICATIONCODE_LENGTH = 6;
+
+	/**
+	 * 发送验证码
+	 * 
+	 * @param phoneNo
+	 *            电话号码
+	 */
+	public static boolean sendVerificationCode(String phoneNo) {
+		boolean sendFlag = true;
+		String code = VerificationCodeUtils.createRandom(true, VERIFICATIONCODE_LENGTH);
+		// TODO 发送验证码
+
+		VERIFICATIONCODE_MAP.put(phoneNo, code);
+		return  sendFlag;
+	}
+
 	/**
 	 * 创建指定数量的随机字符串
 	 * 

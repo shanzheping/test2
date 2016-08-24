@@ -1,6 +1,5 @@
 package com.proper.enterprise.isj.proxy.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,30 +69,4 @@ public class HospitalNavigationController extends BaseController {
 		return responseOfGet(floors);
 	}
 
-	public static void main(String[] args) throws IOException {
-		String builder = "[" + "  {" + "    'id': '1'," + "    'name': '南湖院区'," + "    'builds': ["
-				+ "      {" + "        'id': '1'," + "        'name': '1号楼A座',"
-				+ "        'function': '门诊楼'" + "      }," + "      {" + "        'id': '2',"
-				+ "        'name': '1号楼B座'," + "        'function': '急诊楼'" + "      }," + "      {"
-				+ "        'id': '3'," + "        'name': '1号楼'," + "        'function': '住院楼'"
-				+ "      }," + "      {" + "        'id': '4'," + "        'name': '4号楼',"
-				+ "        'function': ''" + "      }" + "    ]" + "  }," + "  {" + "    'id': '2',"
-				+ "    'name': '滑翔院区'," + "    'builds': [" + "      {" + "        'id': '1',"
-				+ "        'name': '1号'," + "        'function': ''" + "      }," + "      {"
-				+ "        'id': '2'," + "        'name': '2号楼'," + "        'function': ''"
-				+ "      }," + "      {" + "        'id': '3'," + "        'name': '3号楼',"
-				+ "        'function': ''" + "      }" + "    ]" + "  }," + "  {" + "    'id': '3',"
-				+ "    'name': '沈北院区'," + "    'builds': [" + "      {" + "        'id': '1',"
-				+ "        'name': '1号'," + "        'function': ''" + "      }," + "      {"
-				+ "        'id': '2'," + "        'name': '2号楼'," + "        'function': ''"
-				+ "      }" + "    ]" + "  }" + "]";
-//		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
-		List<HospitalNavigation> hopList = new ArrayList<HospitalNavigation>();
-		try {
-			hopList = JSONUtil.parse(builder, List.class);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println(JSONUtil.toJSON(hopList));
-	}
 }

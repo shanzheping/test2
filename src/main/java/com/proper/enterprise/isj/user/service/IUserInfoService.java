@@ -6,7 +6,7 @@ import com.proper.enterprise.platform.auth.common.entity.UserEntity;
 /**
  * Created by think on 2016/8/15 0015. 用户扩展信息接口
  */
-public interface UserInfoService {
+public interface IUserInfoService {
 
 	/**
 	 * 保存信息
@@ -20,5 +20,5 @@ public interface UserInfoService {
 
 	UserInfo getUserInfoByTelephone(String telephone);
 
-	void saveUserAndUserInfo(UserEntity user, UserInfo userInfo) throws Exception;
+	UserInfo saveUserAndUserInfo(UserEntity user, UserInfo userInfo) throws Exception;
 }

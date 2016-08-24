@@ -1,16 +1,20 @@
 package com.proper.enterprise.isj.proxy.controller;
 
-import com.proper.enterprise.isj.proxy.model.Organization;
-import com.proper.enterprise.platform.core.controller.BaseController;
-import com.proper.enterprise.platform.core.utils.JSONUtil;
-import com.proper.enterprise.platform.core.utils.StringUtil;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
+import com.proper.enterprise.isj.proxy.model.District;
+import com.proper.enterprise.isj.proxy.model.Organization;
+import com.proper.enterprise.platform.core.controller.BaseController;
+import com.proper.enterprise.platform.core.utils.JSONUtil;
+import com.proper.enterprise.platform.core.utils.StringUtil;
 
 /**
  * Created by think on 2016/8/16 0016. 指定科室详细
@@ -38,14 +42,18 @@ public class OrganizationController extends BaseController {
 		return responseOfGet(org);
 	}
 
-	public static void main(String[] args) throws IOException {
-		Organization org = new Organization();
-		String orgStr = "{" + "  'id': '1'," + "  'name': '第一内分泌科门诊（南湖）'" + "}";
+	@RequestMapping(path = "/districts", method = RequestMethod.GET)
+	public ResponseEntity<List<District>> getDistricts() {
+		String disStr = "[" + "  {" + "    'id': '1'," + "    'name': '南湖院区'" + "  }," + "  {"
+				+ "    'id': '2'," + "    'name': '滑翔院区'" + "  }," + "  {" + "    'id': '3',"
+				+ "    'name': '沈北院区'" + "  }" + "]";
+		List<District> disList = new ArrayList<>();
 		try {
-			org = JSONUtil.parse(orgStr, Organization.class);
+			disList = JSONUtil.parse(disStr, List.class);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(JSONUtil.toJSON(org));
+		return responseOfGet(disList);
 	}
+
 }

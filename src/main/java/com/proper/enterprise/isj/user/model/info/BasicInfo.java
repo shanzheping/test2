@@ -3,6 +3,7 @@ package com.proper.enterprise.isj.user.model.info;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.proper.enterprise.isj.user.model.enums.MemberRelationEnum;
 import com.proper.enterprise.platform.core.document.BaseDocument;
 
 /**
@@ -31,6 +32,16 @@ public class BasicInfo extends BaseDocument {
 	 */
 
 	private List<CardInfo> cards = new ArrayList<>();
+
+	/**
+	 * 是否为就诊人
+	 */
+	private Boolean visitFlag = false;
+
+	/**
+	 * 与用户关系
+	 */
+	private MemberRelationEnum memberRelation;
 
 	public String getName() {
 		return name;
@@ -62,5 +73,21 @@ public class BasicInfo extends BaseDocument {
 
 	public void setCards(List<CardInfo> cards) {
 		this.cards = cards;
+	}
+
+	public Boolean getVisitFlag() {
+		return visitFlag;
+	}
+
+	public void setVisitFlag(Boolean visitFlag) {
+		this.visitFlag = visitFlag;
+	}
+
+	public MemberRelationEnum getMemberRelation() {
+		return memberRelation;
+	}
+
+	public void setMemberRelation(MemberRelationEnum memberRelation) {
+		this.memberRelation = memberRelation;
 	}
 }

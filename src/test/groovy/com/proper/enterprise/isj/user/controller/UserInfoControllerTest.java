@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 
 import com.proper.enterprise.isj.user.model.UserInfo;
 import com.proper.enterprise.isj.user.model.info.FamilyMemberInfo;
-import com.proper.enterprise.isj.user.service.UserInfoService;
+import com.proper.enterprise.isj.user.service.IUserInfoService;
 import com.proper.enterprise.platform.test.AbstractTest;
 
 /**
@@ -20,7 +20,7 @@ import com.proper.enterprise.platform.test.AbstractTest;
 public class UserInfoControllerTest extends AbstractTest {
 
 	@Autowired
-	UserInfoService userInfoService;
+	IUserInfoService userInfoService;
 
 	@Test
 	public void testGetUserInfo() throws Exception {
@@ -30,7 +30,7 @@ public class UserInfoControllerTest extends AbstractTest {
 		info.setUserId(userId);
 		info = userInfoService.saveOrUpdateUserInfo(info);
 		info = new UserInfo();
-		info = (UserInfo) getAndReturn("/base/userinfo/getUserInfo?userId=" + userId, info,
+		info = (UserInfo) getAndReturn("/login/getUserInfo?userId=" + userId, info,
 				HttpStatus.OK);
 
 		info.setTelephone("13800000001");

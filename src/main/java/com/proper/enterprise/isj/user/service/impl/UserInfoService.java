@@ -8,9 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.proper.enterprise.isj.user.model.UserInfo;
 import com.proper.enterprise.isj.user.repository.UserInfoRepository;
-import com.proper.enterprise.isj.user.service.UserInfoService;
+import com.proper.enterprise.isj.user.service.IUserInfoService;
 import org.springframework.transaction.annotation.Transactional;
-
 
 /**
  * Created by think on 2016/8/15 0015.
@@ -18,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class UserInfoServiceImpl implements UserInfoService {
+public class UserInfoService implements IUserInfoService {
 
 	@Autowired
 	UserInfoRepository userInfoRepository;
@@ -45,9 +44,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public void saveUserAndUserInfo(UserEntity user, UserInfo userInfo) throws Exception {
+	public UserInfo saveUserAndUserInfo(UserEntity user, UserInfo userInfo) throws Exception {
 		User us = userService.save(user);
 		userInfo.setUserId(us.getId());
-		userInfoRepository.save(userInfo);
+		return userInfoRepository.save(userInfo);
 	}
 }

@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.proper.enterprise.isj.user.model.UserInfo;
-import com.proper.enterprise.isj.user.service.UserInfoService;
+import com.proper.enterprise.isj.user.service.IUserInfoService;
 import com.proper.enterprise.platform.api.auth.model.User;
 import com.proper.enterprise.platform.api.auth.service.UserService;
 import com.proper.enterprise.platform.auth.common.entity.UserEntity;
@@ -23,7 +23,7 @@ public class UserSaveTest extends AbstractTest {
 	UserInfoRepository userInfoRepository;
 
 	@Autowired
-	UserInfoService userInfoService;
+	IUserInfoService userInfoService;
 
 	@Test
 	public void saveUser() {

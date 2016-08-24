@@ -18,4 +18,10 @@ public class OrganizationControllerTest extends AbstractTest {
 		System.out.println(result.getResponse().getContentAsString());
 	}
 
+
+	@Test
+	public void testGetDistricts() throws Exception {
+		MvcResult result = get("/organization/districts", HttpStatus.OK);
+		System.out.println(result.getResponse().getContentAsString());
+	}
 }
