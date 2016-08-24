@@ -132,7 +132,7 @@ public class UserRegController extends BaseController {
 				}
 			}
 		}
-		return new ResponseEntity<String>(resultMsg, httpStatus);
+		return new ResponseEntity(resultMsg, httpStatus);
 	}
 
 }
