@@ -1,38 +1,71 @@
 package com.proper.enterprise.isj.user.model.enums;
 
-import java.util.EnumSet;
+import com.proper.enterprise.platform.core.enums.IntEnum;
 
 /**
  * Created by think on 2016/8/12 0012.
  *
  */
-public enum CardTypeEnum {
+public enum CardTypeEnum implements IntEnum {
 
-    /**
-     *病历号
-     */
-    CASE_NO("病历号");
+	/**
+	 * 健康卡
+	 */
+	HEALTH(1),
 
+	/**
+	 * 市民卡
+	 */
+	CITIZEN(2),
 
-    private String value;
+	/**
+	 * 社保卡/医保卡
+	 */
+	SM_INS(3),
 
+	/**
+	 * 银行卡
+	 */
+	BANK(4),
 
-    private CardTypeEnum(String value) {
-        this.value = value;
-    }
+	/**
+	 * 公费医疗证
+	 */
+	FREE_HEAL(5),
 
-    public String getValue() {
-        return value;
-    }
+	/**
+	 * 农合证
+	 */
+	COUNTRY(6),
 
-    public static void main(String[] args) {
-        EnumSet<CardTypeEnum> collSet = EnumSet.allOf(CardTypeEnum.class);
-        for (CardTypeEnum coll : collSet) {
-            System.out.println(coll.name());
-        }
-        CardTypeEnum[] vals = CardTypeEnum.values();
-        for (int i = 0; i < vals.length; i++) {
-            System.out.println(vals[i].getValue());
-        }
-    }
+	/**
+	 * 院内诊疗卡
+	 */
+	INSIDE(7),
+
+	/**
+	 * 就诊卡
+	 */
+	CARD(8),
+
+	/**
+	 * 系统内部号
+	 */
+	INNER_NO(9),
+
+	/**
+	 * 其它卡
+	 */
+	OTHERS(99);
+
+	private int code;
+
+	CardTypeEnum(int code) {
+		this.code = code;
+	}
+
+	public int getCode() {
+		return code;
+	}
+
 }

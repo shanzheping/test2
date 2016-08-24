@@ -30,7 +30,7 @@ public class UserInfoRepositoryTest extends AbstractTest {
 		userInfo.setIdentityCard("11111");
 		List<CardInfo> cardList = new ArrayList<>();
 		CardInfo cardInfo = new CardInfo();
-		cardInfo.setCardType(CardTypeEnum.CASE_NO);
+		cardInfo.setCardType(CardTypeEnum.CARD);
 		cardInfo.setCardNo("11111111111");
 		cardList.add(cardInfo);
 		userInfo.setCards(cardList);
@@ -40,11 +40,14 @@ public class UserInfoRepositoryTest extends AbstractTest {
 	@Test
 	public void getUserInfoByUserId() {
 		UserInfo userInfo = userInfoRepository.getByUserId(String.valueOf(1));
-		try {
-			System.out.println(JSONUtil.toJSON(userInfo));
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (userInfo != null) {
+			try {
+				System.out.println(JSONUtil.toJSON(userInfo));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+
 	}
 
 }
