@@ -4,6 +4,7 @@ import com.proper.enterprise.platform.core.enums.IntEnum;
 
 /**
  * Created by think on 2016/8/12 0012.
+ * 卡类别
  *
  */
 public enum CardTypeEnum implements IntEnum {
