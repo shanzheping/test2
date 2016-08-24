@@ -18,7 +18,7 @@ import com.proper.enterprise.platform.core.controller.BaseController;
 import com.proper.enterprise.platform.core.utils.MD5Util;
 
 /**
- * Created by think on 2016/8/23 0023. 用户相关信息
+ * Created by think on 2016/8/23 0023. 用户登录相关信息
  *
  */
 
